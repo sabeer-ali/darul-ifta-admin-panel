@@ -1,0 +1,26 @@
+.rejected,
+.hold,
+.inprogress,
+.published {
+  background-color: brown;
+  color: aliceblue;
+  padding: 5px 15px;
+  border-radius: 1em;
+}
+
+.hold {
+  background-color: yellow;
+  color: black;
+}
+.inprogress {
+  background-color: tomato;
+}
+.published {
+  background-color: greenyellow;
+  color: black;
+}
+
+input,
+input button {
+  height: 35px !important;
+}
