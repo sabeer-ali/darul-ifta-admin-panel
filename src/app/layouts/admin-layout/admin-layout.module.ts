@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-
 import { NgxPaginationModule } from "ngx-pagination";
 
 import { AdminLayoutRoutes } from "./admin-layout.routing";
@@ -26,15 +25,6 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     NgbModule,
     NgxPaginationModule,
   ],
-  declarations: [
-    DashboardComponent,
-    UserComponent,
-    TableComponent,
-    UpgradeComponent,
-    TypographyComponent,
-    IconsComponent,
-    MapsComponent,
-    NotificationsComponent,
-  ],
+  declarations: [DashboardComponent, NotificationsComponent],
 })
 export class AdminLayoutModule {}

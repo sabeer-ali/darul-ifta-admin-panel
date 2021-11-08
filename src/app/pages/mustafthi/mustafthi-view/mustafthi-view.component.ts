@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-mustafthi-view',
-  templateUrl: './mustafthi-view.component.html',
-  styleUrls: ['./mustafthi-view.component.css']
+  selector: "app-mustafthi-view",
+  templateUrl: "./mustafthi-view.component.html",
+  styleUrls: ["./mustafthi-view.component.css"],
 })
 export class MustafthiViewComponent implements OnInit {
+  editMode: Boolean = false;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

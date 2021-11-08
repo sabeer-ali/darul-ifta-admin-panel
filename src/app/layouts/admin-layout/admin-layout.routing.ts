@@ -5,8 +5,6 @@ import { FatwasViewComponent } from "./../../pages/fatwas/fatwas-view/fatwas-vie
 import { FatwasListComponent } from "./../../pages/fatwas/fatwas-list/fatwas-list.component";
 import { CategoriesViewComponent } from "./../../pages/categories/categories-view/categories-view.component";
 import { CategoriesListComponent } from "./../../pages/categories/categories-list/categories-list.component";
-import { MustafthiViewComponent } from "./../../pages/mustafthi/mustafthi-view/mustafthi-view.component";
-import { MustafthiEditComponent } from "./../../pages/mustafthi/mustafthi-edit/mustafthi-edit.component";
 import { Routes } from "@angular/router";
 
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
@@ -20,16 +18,17 @@ import { UpgradeComponent } from "../../pages/upgrade/upgrade.component";
 import { MustafthiListComponent } from "app/pages/mustafthi/mustafthi-list/mustafthi-list.component";
 import { CategoriesEditComponent } from "app/pages/categories/categories-edit/categories-edit.component";
 import { ArticleEditComponent } from "app/pages/article/article-edit/article-edit.component";
+import { MustafthiRoutingModule } from "app/pages/mustafthi/mustafthi-routing.module";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
   {
     path: "mustafthi-managment",
-    component: MustafthiListComponent,
-    children: [
-      { path: "edit", component: MustafthiEditComponent },
-      { path: "view", component: MustafthiViewComponent },
-    ],
+    loadChildren: () =>
+      import("../../pages/mustafthi/mustafthi.module").then(
+        (m) => m.MustafthiModule
+      ),
+    data: { core: { title: "Mustafthi Managment" } },
   },
   {
     path: "category-management",
@@ -53,12 +52,4 @@ export const AdminLayoutRoutes: Routes = [
       { path: "view", component: ArticleViewComponent },
     ],
   },
-
-  // { path: 'user',           component: UserComponent },
-  // { path: 'table',          component: TableComponent },
-  // { path: 'typography',     component: TypographyComponent },
-  // { path: 'icons',          component: IconsComponent },
-  // { path: 'maps',           component: MapsComponent },
-  // { path: 'notifications',  component: NotificationsComponent },
-  // { path: 'upgrade',        component: UpgradeComponent }
 ];
