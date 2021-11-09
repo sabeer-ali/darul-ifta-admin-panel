@@ -1,0 +1,3 @@
+.cust-container ::ng-deep .ngx-pagination .current {
+  border-radius: 100% !important;
+}

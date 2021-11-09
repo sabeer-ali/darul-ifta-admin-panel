@@ -1,1 +1,56 @@
-<p>fatwas-list works!</p>
+<!-- Hading -->
+<!-- <div class="bg-white my-2 pr-5 shadow-sm rounded">
+  <div class="d-flex justify-content-end pr-5">
+    <button class="btn">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      Add Category
+    </button>
+  </div>
+</div> -->
+<!-- table List -->
+<div class="container-fluid bg-white shadow-sm rounded p-3">
+  <div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th class="text-center" scope="col">Question Id</th>
+          <th class="text-center" scope="col">Mustafthi</th>
+          <th class="text-center" scope="">Catrgory</th>
+          <th class="text-center" scope="">madhab</th>
+          <th class="text-center" scope="">Mufthi</th>
+          <th class="text-center" scope="">Status</th>
+          <th class="text-center" scope="">Date of Submit</th>
+          <th class="text-center" scope="">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let item of list | paginate: { itemsPerPage: 10, currentPage: q }
+          "
+        >
+          <td class="text-center">{{ item.qid }}</td>
+          <td class="text-center">{{ item.mustafthi }}</td>
+          <td class="text-center">{{ item.category }}</td>
+          <td class="text-center">{{ item.madhab }}</td>
+          <td class="text-center">{{ item.mufthi }}</td>
+          <td class="text-center">{{ item.status }}</td>
+          <td class="text-center">{{ item.dos }}</td>
+
+          <td class="">
+            <button
+              class="btn btn-primary btn-sm mx-2 rounded"
+              [routerLink]="['/category-management/edit']"
+            >
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              <span class="px-1">Edit</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-end cust-container">
+      <pagination-controls (pageChange)="q = $event"></pagination-controls>
+    </div>
+  </div>
+</div>
