@@ -13,7 +13,7 @@ export class UserListComponent implements OnInit {
     this.getUserList();
   }
   getUserList() {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i <= 10; i++) {
       this.list.push({
         slNo: i,
         firstName: "First Name " + i,

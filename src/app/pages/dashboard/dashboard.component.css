@@ -24,3 +24,7 @@ input,
 input button {
   height: 35px !important;
 }
+
+.cust-container ::ng-deep .ngx-pagination .current {
+  border-radius: 100% !important;
+}

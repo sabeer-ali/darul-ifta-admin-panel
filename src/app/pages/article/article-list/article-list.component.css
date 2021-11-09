@@ -1,0 +1,18 @@
+.cust-container ::ng-deep .ngx-pagination .current {
+  border-radius: 100% !important;
+}
+
+.published,
+.draft {
+  color: aliceblue;
+  border-radius: 15px;
+  padding: 5px 10px;
+}
+
+.published {
+  background-color: green;
+}
+
+.draft {
+  background-color: brown;
+}

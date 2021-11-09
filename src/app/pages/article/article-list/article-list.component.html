@@ -1,1 +1,69 @@
-<p>article-list works!</p>
+<!-- Hading -->
+<div class="bg-white my-2 pr-2 shadow-sm rounded">
+  <div class="d-flex justify-content-end">
+    <button class="btn" [routerLink]="['/article-management/add']">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      Add Article
+    </button>
+  </div>
+</div>
+<!-- table List -->
+<div class="container-fluid bg-white shadow-sm rounded p-3">
+  <div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Sl No</th>
+          <th scope="col">Subject</th>
+          <th scope="col">Date of Created</th>
+          <th scope="col">Date of published</th>
+          <th scope="col">Status</th>
+          <th scope="">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let item of list | paginate: { itemsPerPage: 10, currentPage: q }
+          "
+        >
+          <td>{{ item.slNo }}</td>
+          <td>{{ item.subject }}</td>
+          <td>{{ item.doc }}</td>
+          <td>{{ item.dop }}</td>
+          <td>
+            <span
+              [ngClass]="{
+                published: item.status === 'Published',
+                draft: item.status === 'Draft'
+              }"
+            >
+              {{ item.status }}
+            </span>
+          </td>
+
+          <td class="">
+            <button
+              class="btn btn-primary btn-sm mx-2 rounded"
+              [routerLink]="['/article-management/view']"
+            >
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              <span class="px-1">View</span>
+            </button>
+            <button
+              class="btn btn-primary btn-sm mx-2 rounded"
+              [routerLink]="['/article-management/edit']"
+            >
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              <span class="px-1">Edit</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-end cust-container">
+      <pagination-controls (pageChange)="q = $event"></pagination-controls>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>
