@@ -1,12 +1,23 @@
-<!-- Hading -->
-<!-- <div class="bg-white my-2 pr-5 shadow-sm rounded">
+<!-- Heading -->
+<div class="bg-white my-2 pr-5 shadow-sm rounded">
   <div class="d-flex justify-content-end pr-5">
     <button class="btn">
       <i class="fa fa-plus" aria-hidden="true"></i>
       Add Category
     </button>
+
+    <div>
+      <ng-select
+        [items]="cities"
+        bindLabel="name"
+        placeholder="Select city"
+        [(ngModel)]="selectedCity"
+      >
+      </ng-select>
+    </div>
   </div>
-</div> -->
+</div>
+
 <!-- table List -->
 <div class="container-fluid bg-white shadow-sm rounded p-3">
   <div>
