@@ -7,6 +7,7 @@ import { Component, OnInit } from "@angular/core";
 })
 export class ArticleListComponent implements OnInit {
   list: any[] = [];
+  q: any;
   constructor() {}
 
   ngOnInit(): void {
