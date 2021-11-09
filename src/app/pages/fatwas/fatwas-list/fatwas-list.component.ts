@@ -27,8 +27,8 @@ export class FatwasListComponent implements OnInit {
           i > 2 && i < 5
             ? "Pending"
             : i > 5 && i < 8
-            ? "published"
-            : "in Progress",
+            ? "Published"
+            : "In Progress",
         dos: i + "-10-2021",
       });
     }

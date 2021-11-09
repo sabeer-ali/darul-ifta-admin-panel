@@ -1,3 +1,26 @@
 .cust-container ::ng-deep .ngx-pagination .current {
   border-radius: 100% !important;
 }
+.rejected,
+.hold,
+.inprogress,
+.published {
+  background-color: brown;
+  color: aliceblue;
+  padding: 5px 15px;
+  border-radius: 1em;
+}
+
+.hold {
+  background-color: yellow;
+  color: black;
+}
+
+.inprogress {
+  background-color: tomato;
+}
+
+.published {
+  background-color: greenyellow;
+  color: black;
+}
