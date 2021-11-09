@@ -13,10 +13,9 @@ import { AppComponent } from "./app.component";
 import { AppRoutes } from "./app.routing";
 
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
-import { UsersListComponent } from "./pages/user/users-list/users-list.component";
 
 @NgModule({
-  declarations: [AppComponent, AdminLayoutComponent, UsersListComponent],
+  declarations: [AppComponent, AdminLayoutComponent],
   imports: [
     BrowserAnimationsModule,
     RouterModule.forRoot(AppRoutes, {

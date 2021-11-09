@@ -1,9 +1,5 @@
 import { Routes } from "@angular/router";
-import { ArticleViewComponent } from "./../../pages/article/article-view/article-view.component";
-import { ArticleListComponent } from "./../../pages/article/article-list/article-list.component";
-import { UsersListComponent } from "./../../pages/user/users-list/users-list.component";
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
-import { ArticleEditComponent } from "app/pages/article/article-edit/article-edit.component";
 
 export const AdminLayoutRoutes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -29,13 +25,16 @@ export const AdminLayoutRoutes: Routes = [
       import("../../pages/fatwas/fatwas.module").then((m) => m.FatwasModule),
     data: { core: { title: "fatwa-management" } },
   },
-  { path: "user-management", component: UsersListComponent },
+  {
+    path: "user-management",
+    loadChildren: () =>
+      import("../../pages/users/users.module").then((m) => m.UsersModule),
+    data: { core: { title: "user-management" } },
+  },
   {
     path: "article-management",
-    component: ArticleListComponent,
-    children: [
-      { path: "edit", component: ArticleEditComponent },
-      { path: "view", component: ArticleViewComponent },
-    ],
+    loadChildren: () =>
+      import("../../pages/article/article.module").then((m) => m.ArticleModule),
+    data: { core: { title: "user-management" } },
   },
 ];

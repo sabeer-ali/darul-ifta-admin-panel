@@ -1,20 +1,66 @@
 <!-- Heading -->
-<div class="bg-white my-2 pr-5 shadow-sm rounded">
-  <div class="d-flex justify-content-end pr-5">
-    <button class="btn">
-      <i class="fa fa-plus" aria-hidden="true"></i>
-      Add Category
-    </button>
-
-    <div>
-      <ng-select
-        [items]="cities"
-        bindLabel="name"
-        placeholder="Select city"
-        [(ngModel)]="selectedCity"
-      >
-      </ng-select>
-    </div>
+<div class="bg-white shadow-sm rounded p-3 mb-3 mx-1 row">
+  <div class="col-md-6 col-lg-3">
+    <label class="form-group font-weight-bold">Status</label>
+    <ng-select
+      [items]="status"
+      bindLabel="name"
+      placeholder="Status"
+      class="form-group"
+    >
+    </ng-select>
+  </div>
+  <div class="col-md-6 col-lg-2">
+    <label class="form-group font-weight-bold">Madhab</label>
+    <ng-select
+      [items]="madhab"
+      bindLabel="name"
+      placeholder="Madhab"
+      class="form-group"
+    >
+    </ng-select>
+  </div>
+  <div class="col-md-6 col-lg-2">
+    <label class="form-group font-weight-bold">Category</label>
+    <ng-select
+      [items]="category"
+      bindLabel="name"
+      placeholder="Category"
+      class="form-group"
+      [(ngModel)]="selectedCategory"
+    >
+    </ng-select>
+  </div>
+  <div class="col-md-6 col-lg-2">
+    <label class="form-group font-weight-bold">Sub Category</label>
+    <ng-select
+      [items]="subCategory"
+      bindLabel="name"
+      placeholder="Sub Category"
+      class="form-group"
+      [readonly]="selectedCategory === null"
+    >
+    </ng-select>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <label class="form-group font-weight-bold">Mufthi</label>
+    <ng-select
+      [items]="mufthi"
+      bindLabel="name"
+      placeholder="Mufthi"
+      class="form-group"
+    >
+    </ng-select>
+  </div>
+  <div class="col-md-6 col-lg-3">
+    <label class="form-group font-weight-bold">Mustafthi</label>
+    <ng-select
+      [items]="mustafthi"
+      bindLabel="name"
+      placeholder="Mustafthi"
+      class="form-group"
+    >
+    </ng-select>
   </div>
 </div>
 

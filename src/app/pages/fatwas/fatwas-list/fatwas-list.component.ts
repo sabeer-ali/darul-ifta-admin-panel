@@ -8,13 +8,59 @@ import { Component, OnInit } from "@angular/core";
 export class FatwasListComponent implements OnInit {
   list: any[] = [];
   q: any;
-  cities = [
-    { id: 1, name: "Vilnius" },
-    { id: 2, name: "Kaunas" },
-    { id: 3, name: "Pavilnys", disabled: true },
-    { id: 4, name: "Pabradė" },
-    { id: 5, name: "Klaipėda" },
+  status = [
+    { id: 1, name: "Pendin" },
+    { id: 2, name: "Submitted to Darul ifta" },
+    { id: 3, name: "Rejected" },
+    { id: 4, name: "Re-submitted" },
+    { id: 5, name: "Published" },
   ];
+  madhab = [
+    { id: 1, name: "Hanafi" },
+    { id: 2, name: "Shafi" },
+    { id: 3, name: "Common" },
+  ];
+
+  category = [
+    { id: 1, name: "Category 1" },
+    { id: 2, name: "Category 2" },
+    { id: 3, name: "Category 3" },
+  ];
+
+  subCategory = [
+    { id: 1, name: "Sub Category 1" },
+    { id: 2, name: "Sub Category 2" },
+    { id: 3, name: "Sub Category 3" },
+  ];
+
+  mufthi = [
+    { id: 1, name: "Mufthi 1" },
+    { id: 2, name: "Mufthi 2" },
+    { id: 3, name: "Mufthi 3" },
+    { id: 4, name: "Mufthi 4" },
+    { id: 5, name: "Mufthi 5" },
+    { id: 6, name: "Mufthi 6" },
+    { id: 7, name: "Mufthi 7" },
+    { id: 8, name: "Mufthi 8" },
+    { id: 9, name: "Mufthi 9" },
+    { id: 10, name: "Mufthi 10" },
+  ];
+
+  mustafthi = [
+    { id: 1, name: "sabeer 1" },
+    { id: 2, name: "aashik 2" },
+    { id: 3, name: "john 3" },
+    { id: 4, name: "sabu 4" },
+    { id: 5, name: "manu 5" },
+    { id: 6, name: "vishal 6" },
+    { id: 7, name: " lal 7" },
+    { id: 8, name: "mustafthi 8" },
+    { id: 9, name: "mustafthi 9" },
+    { id: 10, name: "mustafthi 10" },
+  ];
+
+  selectedCategory: any = null;
+
   constructor() {}
 
   ngOnInit(): void {

@@ -19,9 +19,45 @@
 <div class="bg-white rounded shadow-sm p-4">
   <form>
     <div class="form-row">
-      <div class="form-group col-md-2">
+      <div class="form-group col-md-3">
         <label for="qid">Question ID</label>
-        <input type="email" class="form-control" id="qid" disabled />
+        <input
+          type="text"
+          class="form-control"
+          id="qid"
+          disabled
+          value="Q-0102"
+        />
+      </div>
+      <div class="form-group col-md-3">
+        <label for="qid">Musthafthi</label>
+        <input
+          type="text"
+          class="form-control"
+          id="musrthafthi"
+          disabled
+          value="Sabeer Ali"
+        />
+      </div>
+      <div class="form-group col-md-3">
+        <label for="qid">Category</label>
+        <input
+          type="text"
+          class="form-control"
+          id="musrthafthi"
+          disabled
+          value="Category 1"
+        />
+      </div>
+      <div class="form-group col-md-3">
+        <label for="qid">Madhab</label>
+        <input
+          type="text"
+          class="form-control"
+          id="musrthafthi"
+          disabled
+          value="Hanafi"
+        />
       </div>
     </div>
     <div class="form-group my-3">
@@ -45,6 +81,29 @@
         rows="15"
         disabled
       ></textarea>
+    </div>
+
+    <!-- <div class="form-group my-3">
+      <label class="">Written By</label>
+      <ng-select
+        [items]="mufthi"
+        bindLabel="name"
+        placeholder="Mufthi"
+        class="col-md-4 px-0"
+        [(ngModel)]="selectedCategory"
+      >
+      </ng-select>
+    </div> -->
+    <div class="form-group my-3">
+      <label for="writtenby">Written By</label>
+      <input
+        type="text"
+        class="form-control"
+        id="writtenby"
+        placeholder="written By"
+        disabled
+        value="Mufthi 1"
+      />
     </div>
 
     <div class="form-group">

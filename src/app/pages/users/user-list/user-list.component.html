@@ -1,0 +1,58 @@
+<!-- Hading -->
+<div class="bg-white my-2 pr-2 shadow-sm rounded">
+  <div class="d-flex justify-content-end">
+    <button class="btn" [routerLink]="['/user-management/add']">
+      <i class="fa fa-plus" aria-hidden="true"></i>
+      Add User
+    </button>
+  </div>
+</div>
+<!-- table List -->
+<div class="container-fluid bg-white shadow-sm rounded p-3">
+  <div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Sl No</th>
+          <th scope="col">first name</th>
+          <th scope="col">last name</th>
+          <th scope="col">Role</th>
+          <th scope="">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let item of list | paginate: { itemsPerPage: 10, currentPage: q }
+          "
+        >
+          <td>{{ item.slNo }}</td>
+          <td>{{ item.firstName }}</td>
+          <td>{{ item.lastName }}</td>
+          <td>{{ item.role }}</td>
+
+          <td class="">
+            <button
+              class="btn btn-primary btn-sm mx-2 rounded"
+              [routerLink]="['/category-management/edit']"
+            >
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              <span class="px-1">View</span>
+            </button>
+            <button
+              class="btn btn-primary btn-sm mx-2 rounded"
+              [routerLink]="['/category-management/edit']"
+            >
+              <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              <span class="px-1">Edit</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-end cust-container">
+      <pagination-controls (pageChange)="q = $event"></pagination-controls>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>
