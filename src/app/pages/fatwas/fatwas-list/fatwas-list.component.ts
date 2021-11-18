@@ -9,12 +9,13 @@ export class FatwasListComponent implements OnInit {
   list: any[] = [];
   q: any;
   status = [
-    { id: 1, name: "Pendin" },
+    { id: 1, name: "Pending" },
     { id: 2, name: "Submitted to Darul ifta" },
     { id: 3, name: "Rejected" },
     { id: 4, name: "Re-submitted" },
     { id: 5, name: "Published" },
   ];
+
   madhab = [
     { id: 1, name: "Hanafi" },
     { id: 2, name: "Shafi" },
@@ -72,6 +73,9 @@ export class FatwasListComponent implements OnInit {
       this.list.push({
         qid: i,
         mustafthi: "mustafthi" + i,
+        shortQ:
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+        createDate: "12-11-2021",
         category: "category" + i,
         madhab: i > 5 ? "Other" : i > 7 ? "Shafi" : "hanafi",
         mufthi: i % 2 === 0 ? "mufthi 1" : "mufthi 2",
@@ -80,7 +84,7 @@ export class FatwasListComponent implements OnInit {
             ? "Pending"
             : i > 5 && i < 8
             ? "Published"
-            : "In Progress",
+            : "Verifying",
         dos: i + "-10-2021",
       });
     }

@@ -27,6 +27,23 @@ export class FatwasViewComponent implements OnInit {
     { id: 9, name: "Mufthi 9" },
     { id: 10, name: "Mufthi 10" },
   ];
+
+  categories = [
+    { id: 1, name: "category 1" },
+    { id: 2, name: "category 2" },
+    { id: 3, name: "category 3" },
+    { id: 4, name: "category 4" },
+    { id: 5, name: "category 5" },
+    { id: 6, name: "category 6" },
+    { id: 7, name: "category 7" },
+    { id: 8, name: "category 8" },
+    { id: 9, name: "category 9" },
+  ];
+  madhab = [
+    { id: 1, name: "Hanafi" },
+    { id: 2, name: "Shafi" },
+    { id: 3, name: "Other" },
+  ];
   constructor() {}
 
   ngOnInit(): void {}

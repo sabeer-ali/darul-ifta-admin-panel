@@ -1,0 +1,13 @@
+.position-bottom-right {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.position-bottom-right i {
+  font-size: 1.2em;
+}
+
+.position-bottom-right button {
+  padding-left: 2em;
+}

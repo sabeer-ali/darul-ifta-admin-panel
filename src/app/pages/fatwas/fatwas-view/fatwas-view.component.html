@@ -40,24 +40,24 @@
         />
       </div>
       <div class="form-group col-md-3">
-        <label for="qid">Category</label>
-        <input
-          type="text"
-          class="form-control"
-          id="musrthafthi"
-          disabled
-          value="Category 1"
-        />
+        <label for="category">Category</label>
+        <ng-select
+          [items]="categories"
+          bindLabel="name"
+          placeholder="Category"
+          class="col px-0"
+        >
+        </ng-select>
       </div>
       <div class="form-group col-md-3">
         <label for="qid">Madhab</label>
-        <input
-          type="text"
-          class="form-control"
-          id="musrthafthi"
-          disabled
-          value="Hanafi"
-        />
+        <ng-select
+          [items]="madhab"
+          bindLabel="name"
+          placeholder="Madhab"
+          class="col px-0"
+        >
+        </ng-select>
       </div>
     </div>
     <div class="form-group my-3">
@@ -67,7 +67,6 @@
         class="form-control"
         id="shortquestion"
         placeholder="Short Question"
-        disabled
       />
       <span class="text-muted my-2">max 80 charecters</span>
     </div>
@@ -79,22 +78,20 @@
         id="lquestion"
         placeholder="Long Question"
         rows="15"
-        disabled
       ></textarea>
     </div>
 
-    <!-- <div class="form-group my-3">
+    <div class="form-group my-3">
       <label class="">Written By</label>
       <ng-select
         [items]="mufthi"
         bindLabel="name"
         placeholder="Mufthi"
         class="col-md-4 px-0"
-        [(ngModel)]="selectedCategory"
       >
       </ng-select>
-    </div> -->
-    <div class="form-group my-3">
+    </div>
+    <!-- <div class="form-group my-3">
       <label for="writtenby">Written By</label>
       <input
         type="text"
@@ -104,7 +101,7 @@
         disabled
         value="Mufthi 1"
       />
-    </div>
+    </div> -->
 
     <div class="form-group">
       <label for="wfatwas">Fatwa</label>

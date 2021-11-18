@@ -28,3 +28,7 @@ input button {
 .cust-container ::ng-deep .ngx-pagination .current {
   border-radius: 100% !important;
 }
+
+.w10 {
+  width: 10% !important;
+}

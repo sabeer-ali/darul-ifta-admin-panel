@@ -72,12 +72,13 @@
         <tr>
           <th class="text-center" scope="col">Question Id</th>
           <th class="text-center" scope="col">Mustafthi</th>
-          <th class="text-center" scope="">Catrgory</th>
+          <th class="text-center" scope="col">short Question</th>
+          <th class="text-center" scope="">Create Date</th>
+          <th class="text-center" scope="">Category</th>
           <th class="text-center" scope="">madhab</th>
           <th class="text-center" scope="">Mufthi</th>
           <th class="text-center" scope="">Status</th>
-          <th class="text-center" scope="">Date of Submit</th>
-          <th class="text-center" scope="">Actions</th>
+          <th class="text-center" scope=""></th>
         </tr>
       </thead>
       <tbody>
@@ -88,20 +89,39 @@
         >
           <td class="text-center">{{ item.qid }}</td>
           <td class="text-center">{{ item.mustafthi }}</td>
+          <td class="w-25">{{ item.shortQ }}</td>
+          <td class="text-center">{{ item.dos }}</td>
           <td class="text-center">{{ item.category }}</td>
           <td class="text-center">{{ item.madhab }}</td>
           <td class="text-center">{{ item.mufthi }}</td>
-          <td class="text-center">{{ item.status }}</td>
-          <td class="text-center">{{ item.dos }}</td>
-
-          <td class="">
-            <button
-              class="btn btn-primary btn-sm mx-2 rounded"
-              [routerLink]="['/fatwa-management/view']"
+          <td class="text-center">
+            <span
+              [ngClass]="{
+                rejected: item.status === 'Rejected',
+                pending: item.status === 'Pending',
+                inprogress: item.status === 'Verifying',
+                published: item.status === 'Published'
+              }"
             >
-              <i class="fa fa-eye" aria-hidden="true"></i>
-              <span class="px-1">view</span>
-            </button>
+              {{ item.status }}
+            </span>
+          </td>
+
+          <td>
+            <div class="d-flex justify-content-center align-items-center">
+              <button class="btn btn-primary btn-sm mx-2 rounded">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+              </button>
+              <button
+                class="btn btn-primary btn-sm mx-2 rounded"
+                [routerLink]="['/fatwa-management/view']"
+              >
+                <i class="fa fa-eye" aria-hidden="true"></i>
+              </button>
+              <button class="btn btn-primary btn-sm mx-2 rounded">
+                <i class="fa fa-print" aria-hidden="true"></i>
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>

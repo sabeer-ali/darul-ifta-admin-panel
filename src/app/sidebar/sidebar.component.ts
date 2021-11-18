@@ -8,35 +8,35 @@ export interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
-  { path: "/dashboard", title: "Dashboard", icon: "nc-bank", class: "" },
-  {
-    path: "/mustafthi-managment",
-    title: "Mustafthi ",
-    icon: "nc-bank",
-    class: "",
-  },
-  {
-    path: "/category-management",
-    title: "category  ",
-    icon: "nc-single-02",
-    class: "",
-  },
+  { path: "/dashboard", title: "Home", icon: "nc-bank", class: "" },
   {
     path: "/fatwa-management",
     title: "fatwa ",
-    icon: "nc-single-02",
-    class: "",
-  },
-  {
-    path: "/user-management",
-    title: "User ",
-    icon: "nc-single-02",
+    icon: "fa fa-table",
     class: "",
   },
   {
     path: "/article-management",
     title: "Article ",
-    icon: "nc-single-02",
+    icon: "fa fa-columns",
+    class: "",
+  },
+  {
+    path: "/category-management",
+    title: "category",
+    icon: "fa fa-file-text",
+    class: "",
+  },
+  {
+    path: "/user-management",
+    title: "User ",
+    icon: "fa fa-users",
+    class: "",
+  },
+  {
+    path: "/mustafthi-managment",
+    title: "Mustafthi",
+    icon: "fa fa-list-alt",
     class: "",
   },
   //   { path: "/icons", title: "Icons", icon: "nc-diamond", class: "" },
@@ -67,6 +67,7 @@ export const ROUTES: RouteInfo[] = [
   moduleId: module.id,
   selector: "sidebar-cmp",
   templateUrl: "sidebar.component.html",
+  styleUrls: ["sidebar.component.css"],
 })
 export class SidebarComponent implements OnInit {
   public menuItems: any[];

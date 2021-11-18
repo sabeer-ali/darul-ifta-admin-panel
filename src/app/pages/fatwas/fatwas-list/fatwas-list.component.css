@@ -2,7 +2,7 @@
   border-radius: 100% !important;
 }
 .rejected,
-.hold,
+.pending,
 .inprogress,
 .published {
   background-color: brown;
@@ -11,7 +11,7 @@
   border-radius: 1em;
 }
 
-.hold {
+.pending {
   background-color: yellow;
   color: black;
 }
