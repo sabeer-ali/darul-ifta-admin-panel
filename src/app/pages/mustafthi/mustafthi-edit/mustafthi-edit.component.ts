@@ -9,6 +9,11 @@ import { ActivatedRoute, Params } from "@angular/router";
 export class MustafthiEditComponent implements OnInit {
   @Input() editMode = true;
   user: { id: number };
+  gender = [
+    { id: 1, name: "Male" },
+    { id: 2, name: "Female" },
+  ];
+
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {

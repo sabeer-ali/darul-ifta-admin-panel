@@ -27,6 +27,12 @@ export class FatwasListComponent implements OnInit {
     { id: 2, name: "Category 2" },
     { id: 3, name: "Category 3" },
   ];
+  language = [
+    { id: 1, name: "Malayalam" },
+    { id: 2, name: "English" },
+    { id: 3, name: "Urudu" },
+    { id: 4, name: "Arabic" },
+  ];
 
   subCategory = [
     { id: 1, name: "Sub Category 1" },

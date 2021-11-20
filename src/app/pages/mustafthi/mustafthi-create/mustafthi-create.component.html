@@ -17,7 +17,6 @@
             placeholder="Full Name"
             name="fullname"
             ngModel
-            [disabled]="!editMode"
           />
         </div>
 
@@ -28,7 +27,6 @@
             bindLabel="name"
             placeholder="Gender"
             class="form-group"
-            [readonly]="!editMode"
           >
           </ng-select>
         </div>
@@ -43,7 +41,6 @@
             id="email"
             placeholder="Email ID"
             ngModel
-            [disabled]="!editMode"
           />
         </div>
         <div class="form-group col-lg-5 col-md-6">
@@ -55,7 +52,6 @@
             placeholder="Password"
             name="emailid"
             ngModel
-            [disabled]="!editMode"
           />
         </div>
       </div>
@@ -68,7 +64,6 @@
             id="ph"
             placeholder="Phone Number"
             ngModel
-            [disabled]="!editMode"
           />
         </div>
         <div class="form-group col-lg-5 col-md-6">
@@ -80,24 +75,17 @@
             placeholder="Country"
             name="emailid"
             ngModel
-            [disabled]="!editMode"
           />
         </div>
       </div>
       <div class="form-group my-3 col-md-10 px-0">
         <label for="address">Address</label>
-        <textarea
-          class="form-control"
-          [rows]="5"
-          id="address"
-          [disabled]="!editMode"
-        >
-        </textarea>
+        <textarea class="form-control" [rows]="5" id="address"> </textarea>
       </div>
 
-      <div class="form-row d-flex justify-content-end mt-3" *ngIf="editMode">
+      <div class="form-row d-flex justify-content-end mt-3">
         <button class="btn btn-primary" [routerLink]="['/mustafthi-managment']">
-          Update
+          Create
         </button>
       </div>
     </form>

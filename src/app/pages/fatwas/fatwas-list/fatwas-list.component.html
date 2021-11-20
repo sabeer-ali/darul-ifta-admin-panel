@@ -62,6 +62,16 @@
     >
     </ng-select>
   </div>
+  <div class="col-md-6 col-lg-2">
+    <label class="form-group font-weight-bold">Language</label>
+    <ng-select
+      [items]="language"
+      bindLabel="name"
+      placeholder="Language"
+      class="form-group"
+    >
+    </ng-select>
+  </div>
 </div>
 
 <!-- table List -->
@@ -109,18 +119,18 @@
 
           <td>
             <div class="d-flex justify-content-center align-items-center">
-              <button class="btn btn-primary btn-sm mx-2 rounded">
+              <!-- <button class="btn btn-primary btn-sm mx-2 rounded">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-              </button>
+              </button> -->
               <button
                 class="btn btn-primary btn-sm mx-2 rounded"
                 [routerLink]="['/fatwa-management/view']"
               >
                 <i class="fa fa-eye" aria-hidden="true"></i>
               </button>
-              <button class="btn btn-primary btn-sm mx-2 rounded">
+              <!-- <button class="btn btn-primary btn-sm mx-2 rounded">
                 <i class="fa fa-print" aria-hidden="true"></i>
-              </button>
+              </button> -->
             </div>
           </td>
         </tr>

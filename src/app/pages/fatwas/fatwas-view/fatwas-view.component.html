@@ -60,6 +60,19 @@
         </ng-select>
       </div>
     </div>
+    <div class="form-row">
+      <div class="col-md-6 col-lg-3">
+        <label class="form-group">Language</label>
+        <ng-select
+          [items]="language"
+          bindLabel="name"
+          placeholder="Language"
+          class="form-group"
+        >
+        </ng-select>
+      </div>
+    </div>
+
     <div class="form-group my-3">
       <label for="shortquestion">Short Question</label>
       <input
@@ -81,27 +94,48 @@
       ></textarea>
     </div>
 
-    <div class="form-group my-3">
-      <label class="">Written By</label>
-      <ng-select
-        [items]="mufthi"
-        bindLabel="name"
-        placeholder="Mufthi"
-        class="col-md-4 px-0"
-      >
-      </ng-select>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group my-3">
+          <label class="">Written By</label>
+          <ng-select
+            [items]="mufthi"
+            bindLabel="name"
+            placeholder="Mufthi"
+            class="col-md-8 px-0"
+            [(ngModel)]="selectedWriter"
+            [ngModelOptions]="{ standalone: true }"
+          >
+          </ng-select>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6" *ngIf="selectedWriter.student">
+        <div class="form-group my-3">
+          <label class="">Checked and Approved By</label>
+          <ng-select
+            [items]="checker"
+            bindLabel="name"
+            placeholder="Checker"
+            class="col-md-8 px-0"
+          >
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group my-3">
+          <label class="">Verified By</label>
+          <ng-select
+            [items]="verifier"
+            bindLabel="name"
+            placeholder="verifier"
+            class="col-md-8 px-0"
+            [multiple]="true"
+          >
+          </ng-select>
+        </div>
+      </div>
     </div>
-    <!-- <div class="form-group my-3">
-      <label for="writtenby">Written By</label>
-      <input
-        type="text"
-        class="form-control"
-        id="writtenby"
-        placeholder="written By"
-        disabled
-        value="Mufthi 1"
-      />
-    </div> -->
 
     <div class="form-group">
       <label for="wfatwas">Fatwa</label>
@@ -143,8 +177,17 @@
     >
       <div *ngFor="let item of referenceList; let i = index">
         <div class="form-row">
-          <div class="row col-sm-11 col-md-11 col-lg-11">
-            <div class="form-group input-group-sm col-sm-12 col-md-6 col-lg-2">
+          <div class="row col-sm-11 col-md-12 col-lg-12">
+            <div class="form-group input-group-sm col-md-12 col-lg-12">
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Small"
+                aria-describedby="inputGroup-sizing-sm"
+                placeholder="Quotes"
+              />
+            </div>
+            <div class="form-group input-group-sm col-sm-12 col-md-6 col-lg-8">
               <input
                 type="text"
                 class="form-control"
@@ -170,35 +213,16 @@
                 placeholder="Page No"
               />
             </div>
-
-            <div class="form-group input-group-sm col-md-12 col-lg-6">
-              <input
-                type="text"
-                class="form-control"
-                aria-label="Small"
-                aria-describedby="inputGroup-sizing-sm"
-                placeholder="Quotes"
-              />
-            </div>
-          </div>
-
-          <div
-            class="
-              col-sm-1 col-md-1 col-lg-1
-              pt-1
-              m-0
-              d-flex
-              justify-content-end
-            "
-          >
-            <div class="">
-              <button
-                type="button"
-                class="btn btn-sm btn-danger my-0"
-                (click)="removeReference(i)"
-              >
-                <i class="fa fa-times" aria-hidden="true"></i>
-              </button>
+            <div class="col col d-flex justify-content-end my-3">
+              <div class="">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-danger my-0"
+                  (click)="removeReference(i)"
+                >
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
