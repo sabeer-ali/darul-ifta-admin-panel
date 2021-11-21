@@ -9,11 +9,11 @@
     <form class="col-md-12 col-lg-10 mt-5">
       <div class="form-row">
         <div class="form-group col-md-6">
-          <label for="inputEmail4">First Name</label>
+          <label for="inputEmail4">Name</label>
           <input type="text" class="form-control" id="inputEmail4" />
         </div>
         <div class="form-group col-md-6">
-          <label for="inputEmail4">last Name</label>
+          <label for="inputEmail4">Display Name</label>
           <input type="text" class="form-control" id="inputEmail4" />
         </div>
       </div>
@@ -24,13 +24,17 @@
           <input type="email" class="form-control" id="email" />
         </div>
         <div class="form-group col-md-6">
-          <label for="inputEmail4">Phone Number</label>
+          <label for="inputEmail4">Whatsapp Number</label>
           <input type="number" class="form-control" id="phonenumber" />
         </div>
       </div>
 
       <div class="form-row my-3">
-        <div class="col-md-6 col-lg-6">
+        <div class="form-group col-md-6">
+          <label for="password">Password</label>
+          <input type="text" class="form-control" id="password" />
+        </div>
+        <div class="col-md-3 col-lg-3">
           <label class="">Roles</label>
           <ng-select
             [items]="roleList"
@@ -41,23 +45,43 @@
           </ng-select>
         </div>
 
-        <div class="form-group col-md-6 col-lg-6">
-          <label for="inputEmail4">Date of Birth</label>
-          <input
-            type="text"
-            class="form-control"
-            id="inputEmail4"
-            placeholder="D.O.B"
-          />
+        <div class="form-group col-md-3 col-lg-3">
+          <label for="inputEmail4">Madhab</label>
+          <ng-select
+            [items]="madhab"
+            bindLabel="name"
+            placeholder="Madhab"
+            class="form-group custom-ht"
+          >
+          </ng-select>
         </div>
       </div>
 
-      <div class="form-group my-3">
-        <label for="address">Address</label>
-        <textarea id="address" class="form-control"></textarea>
+      <div class="form-row my-3">
+        <div class="form-group col-md-6 col-lg-6">
+          <label for="address">Address</label>
+          <input type="text" class="form-control" id="address" />
+        </div>
+
+        <div class="form-group col-md-6 col-lg-6">
+          <label for="inputEmail4">Active Status</label>
+          <ng-select
+            [items]="activlist"
+            bindLabel="name"
+            placeholder="Active/Inactive"
+            class="form-group custom-ht"
+          >
+          </ng-select>
+        </div>
       </div>
+
       <div class="d-flex justify-content-end my-3">
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary" *ngIf="mode === ''">
+          Save
+        </button>
+        <button *ngIf="mode === 'edit'" type="submit" class="btn btn-primary">
+          Save
+        </button>
       </div>
     </form>
   </div>

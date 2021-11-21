@@ -14,8 +14,10 @@
       <thead>
         <tr>
           <th scope="col">Sl No</th>
-          <th scope="col">first name</th>
-          <th scope="col">last name</th>
+          <th scope="col">Name</th>
+          <th scope="col">Display Name</th>
+          <th scope="col">Mail</th>
+          <th scope="col">Active / Inactive</th>
           <th scope="col">Role</th>
           <th scope="">Actions</th>
         </tr>
@@ -27,9 +29,24 @@
           "
         >
           <td>{{ item.slNo }}</td>
-          <td>{{ item.firstName }}</td>
-          <td>{{ item.lastName }}</td>
+          <td>
+            {{ item.firstName + " " + item.lastName }}
+            <span class="font-weight-bold pl-2"> ({{ item.count }})</span>
+          </td>
+          <td>{{ item.displayName }}</td>
+
+          <td>{{ item.email }}</td>
           <td>{{ item.role }}</td>
+          <td>
+            <span
+              [ngClass]="{
+                active: item.activeStatus == 'Active',
+                inactive: item.activeStatus == 'Inactive'
+              }"
+            >
+              {{ item.activeStatus }}
+            </span>
+          </td>
 
           <td class="">
             <button

@@ -17,6 +17,8 @@ export class ArticleAddComponent implements OnInit {
   lang = [
     { id: 1, name: "Malayalam" },
     { id: 2, name: "English" },
+    { id: 3, name: "Urudu" },
+    { id: 4, name: "Arabic" },
   ];
   constructor() {}
 

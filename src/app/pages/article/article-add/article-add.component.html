@@ -34,39 +34,40 @@
       </div>
 
       <div class="form-group col-md-12 col-lg-12 px-0">
-        <label for="inputEmail4">Subject</label>
+        <label for="inputEmail4">Title</label>
         <input
           type="text"
           class="form-control"
           id="inputEmail4"
-          placeholder="Subject"
+          placeholder="Title (max 80 Charecter)"
           [disabled]="mode === 'view'"
         />
       </div>
 
-      <div>
-        <label for="content">Contents</label>
-        <textarea
-          type="text"
-          class="form-control"
-          id="content"
-          row="20"
-          [disabled]="mode == 'view'"
-        ></textarea>
-      </div>
-
-      <div class="form-group my-4 col-md-12">
-        <div class="row my-3">
+      <div class="form-group mt-4 px-0">
+        <div class="row px-0" *ngIf="mode !== 'view'">
           <input
             type="file"
-            class="form-control"
+            class=""
             id="uploadfile"
             aria-describedby="inputGroupFileAddon01"
-            [disabled]="mode == 'view'"
           />
           <label class="custom-file-label" for="inputGroupFile01"
             >Choose file</label
           >
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end" *ngIf="mode === 'edit'">
+        <button type="button" class="btn btn-sm mt-5">
+          <i class="fa fa-download" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div *ngIf="mode === 'view'" class="px-0">
+        <h6 class="px-0">Preview</h6>
+        <div class="border rounded" style="height: 500px">
+          <span>sample</span>
         </div>
       </div>
 
@@ -76,6 +77,9 @@
         </div>
         <div *ngIf="mode != 'view'">
           <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+        <div *ngIf="mode === 'view'">
+          <button type="submit" class="btn btn-primary">publish</button>
         </div>
       </div>
     </form>

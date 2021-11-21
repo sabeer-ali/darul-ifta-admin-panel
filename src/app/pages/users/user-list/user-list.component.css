@@ -1,3 +1,18 @@
 .cust-container ::ng-deep .ngx-pagination .current {
   border-radius: 100% !important;
 }
+.active,
+.inactive {
+  border: 0.5px solid #ccc;
+  border-radius: 10px;
+  padding: 3px 10px;
+  font-size: small;
+  color: azure;
+}
+
+.active {
+  background-color: green;
+}
+.inactive {
+  background-color: brown;
+}

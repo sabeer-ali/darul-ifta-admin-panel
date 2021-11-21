@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-categories-edit',
-  templateUrl: './categories-edit.component.html',
-  styleUrls: ['./categories-edit.component.css']
+  selector: "app-categories-edit",
+  templateUrl: "./categories-edit.component.html",
+  styleUrls: ["./categories-edit.component.css"],
 })
 export class CategoriesEditComponent implements OnInit {
+  isEditMode = true;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

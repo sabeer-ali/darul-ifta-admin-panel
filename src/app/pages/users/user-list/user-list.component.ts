@@ -19,7 +19,11 @@ export class UserListComponent implements OnInit {
         slNo: i,
         firstName: "First Name " + i,
         lastName: "last name " + i,
+        displayName: "dis name " + i,
+        count: (i * 2) / 2 + (i + i),
         role: i < 7 ? "mufthi" : "student",
+        email: "sample" + i + "@gmail.com",
+        activeStatus: i < 5 ? "Active" : "Inactive",
       });
     }
   }

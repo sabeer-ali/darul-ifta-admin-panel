@@ -1,6 +1,6 @@
 <!-- Hading -->
 <div class="bg-white my-2 pr-5 shadow-sm rounded">
-  <div class="d-flex justify-content-end pr-5">
+  <div class="d-flex justify-content-end pr-5 p-3">
     <button class="btn" [routerLink]="['/category-management/add']">
       <i class="fa fa-plus" aria-hidden="true"></i>
       Add Category
@@ -24,12 +24,12 @@
             let item of list | paginate: { itemsPerPage: 10, currentPage: q }
           "
         >
-          <td>{{ item.mainCategory }}</td>
-          <td class="d-flex flex-wrap">
-            <div
-              class="border rounded-pill px-2 mx-1"
-              *ngFor="let item1 of item.subCategory"
-            >
+          <td>
+            {{ item.mainCategory }}
+            <span class="font-weight-bold pl-2"> ({{ item.mainCatNo }}) </span>
+          </td>
+          <td class="">
+            <div class="p-2 mx-1" *ngFor="let item1 of item.subCategory">
               {{ item1.sub }}
             </div>
           </td>

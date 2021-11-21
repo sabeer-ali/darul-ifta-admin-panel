@@ -1,1 +1,55 @@
-<p>categories-add works!</p>
+<div>
+  <button class="btn btn-sm" [routerLink]="['/category-management']">
+    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+  </button>
+</div>
+
+<div class="bg-white p-4 shadow-sm rounded">
+  <div class="d-flex justify-content-center">
+    <form class="col-lg-12">
+      <div class="form-row">
+        <div class="form-group col-lg-12 col-md-12 col-sm-12">
+          <label class="form-group" for="category">Category</label>
+          <ng-select
+            [items]="category"
+            bindLabel="name"
+            [addTag]="true"
+            placeholder="Category"
+            class="form-group"
+          >
+          </ng-select>
+        </div>
+        <div class="form-group col-lg-12 col-md-12 col-sm-12">
+          <label class="form-group" for="subcategory">Sub Category</label>
+          <ng-select
+            [items]="subcategory"
+            bindLabel="name"
+            [addTag]="true"
+            placeholder="Sub Category"
+            class="form-group"
+          >
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="form-group my-3 col-md-12 px-0">
+        <div class="form-row d-flex justify-content-end mt-3">
+          <button
+            class="btn btn-primary"
+            [routerLink]="['/mustafthi-managment']"
+            *ngIf="isEditMode"
+          >
+            Update
+          </button>
+          <button
+            class="btn btn-primary"
+            [routerLink]="['/mustafthi-managment']"
+            *ngIf="!isEditMode"
+          >
+            Create
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

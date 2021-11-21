@@ -18,6 +18,7 @@ export class CategoriesListComponent implements OnInit {
     for (let i = 1; i <= 10; i++) {
       this.list.push({
         mainCategory: "mainCategory" + i,
+        mainCatNo: i % 2 === 0 ? 10 : i > 2 && i < 5 ? 5 : 15,
         subCategory: [
           { id: i, sub: "sub" + i },
           { id: i + 1, sub: "sub" + i + 1 },
