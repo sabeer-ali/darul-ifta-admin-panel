@@ -1,6 +1,6 @@
 <!-- Top Section Statics Bars -1 -->
-<div class="row">
-  <div class="col-lg-3 col-md-6 col-sm-6">
+<div class="row justify-content-center">
+  <div class="col-lg-2 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-body">
         <div class="row">
@@ -11,20 +11,16 @@
           </div>
           <div class="col-7 col-md-8">
             <div class="numbers">
-              <p class="card-category">Mustafthies</p>
+              <p class="card-category">Mustafthi</p>
               <p class="card-title">150</p>
               <p></p>
             </div>
           </div>
         </div>
       </div>
-      <!-- <div class="card-footer">
-        <hr />
-        <div class="stats"><i class="fa fa-refresh"></i> Update Now</div>
-      </div> -->
     </div>
   </div>
-  <div class="col-lg-3 col-md-6 col-sm-6">
+  <div class="col-lg-2 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-body">
         <div class="row">
@@ -36,16 +32,12 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">fatwas</p>
-              <p class="card-title">1,345</p>
+              <p class="card-title">{{ "1345" | number }}</p>
               <p></p>
             </div>
           </div>
         </div>
       </div>
-      <!-- <div class="card-footer">
-        <hr />
-        <div class="stats"><i class="fa fa-calendar-o"></i> Last day</div>
-      </div> -->
     </div>
   </div>
   <div class="col-lg-2 col-md-6 col-sm-6">
@@ -66,10 +58,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="card-footer">
-        <hr />
-        <div class="stats"><i class="fa fa-clock-o"></i> In the last hour</div>
-      </div> -->
     </div>
   </div>
   <div class="col-lg-2 col-md-6 col-sm-6">
@@ -90,10 +78,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="card-footer">
-        <hr />
-        <div class="stats"><i class="fa fa-refresh"></i> Update now</div>
-      </div> -->
     </div>
   </div>
   <div class="col-lg-2 col-md-6 col-sm-6">
@@ -114,10 +98,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="card-footer">
-        <hr />
-        <div class="stats"><i class="fa fa-refresh"></i> Update Now</div>
-      </div> -->
     </div>
   </div>
 </div>
@@ -139,14 +119,20 @@
           >
             <div class="input-group input-group-sm">
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm"
                 placeholder="Question ID"
+                [(ngModel)]="searchText"
+                (change)="handleSearch()"
               />
               <span class="input-group-append">
-                <button class="btn btn-outline-secondary m-0" type="button">
+                <button
+                  class="btn btn-outline-secondary m-0"
+                  type="button"
+                  (click)="handleSearch()"
+                >
                   <i class="fa fa-search"></i>
                 </button>
               </span>
@@ -167,22 +153,18 @@
             <th scope="col"></th>
           </tr>
         </thead>
-        <tbody>
-          <tr
-            *ngFor="
-              let item of list | paginate: { itemsPerPage: 10, currentPage: q }
-            "
-          >
+        <tbody *ngIf="list.length; else noDataAvailable">
+          <tr *ngFor="let item of list">
             <td class="font-weight-bold">{{ item.id }}</td>
-            <td>{{ item.MUSTAFTHI }}</td>
-            <td class="w-25">{{ item.shortQ }}</td>
+            <td>{{ item?.mufti?.name }}</td>
+            <td class="w-25">{{ item?.short_question }}</td>
             <td class="font-weight-bold text-secondary">
-              {{ item.createdDate }}
+              {{ item?.reatedAt }}
             </td>
-            <td>{{ item.CATEGORY }}</td>
+            <td>{{ item?.category?.title }}</td>
             <td>
               <span class="font-weight-bold text-secondary">
-                {{ item.MADHAB }}
+                {{ item?.madhab?.title }}
               </span>
             </td>
 
@@ -195,7 +177,7 @@
                   published: item.status === 'Published'
                 }"
               >
-                {{ item.status }}
+                {{ item?.status?.title }}
               </span>
             </td>
             <td>
@@ -214,9 +196,14 @@
           </tr>
         </tbody>
       </table>
-      <div class="cust-container d-flex justify-content-end">
+
+      <ng-template #noDataAvailable>
+        <app-no-data-available></app-no-data-available>
+      </ng-template>
+
+      <!-- <div class="cust-container d-flex justify-content-end">
         <pagination-controls (pageChange)="q = $event"></pagination-controls>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

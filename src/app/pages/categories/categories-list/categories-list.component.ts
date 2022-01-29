@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { CategoryService } from "app/core/services/categoryServices/category.service";
 
 @Component({
   selector: "app-categories-list",
@@ -8,23 +9,40 @@ import { Component, OnInit } from "@angular/core";
 export class CategoriesListComponent implements OnInit {
   list: any[] = [];
   q: any;
-  constructor() {}
+  mainCategory: any
+  subcategory: any
+
+  constructor(private categoryServices: CategoryService) { }
 
   ngOnInit(): void {
     this.getCategoryList();
   }
 
   getCategoryList() {
-    for (let i = 1; i <= 10; i++) {
-      this.list.push({
-        mainCategory: "mainCategory" + i,
-        mainCatNo: i % 2 === 0 ? 10 : i > 2 && i < 5 ? 5 : 15,
-        subCategory: [
-          { id: i, sub: "sub" + i },
-          { id: i + 1, sub: "sub" + i + 1 },
-          { id: i + 2, sub: "sub" + i + 2 },
-        ],
-      });
-    }
+    this.categoryServices.getCategoryList().subscribe(res => {
+      this.mainCategory = res
+      this.getSubCategory();
+    })
   }
+
+  getSubCategory() {
+    this.categoryServices.getSubCategoryList().subscribe(res => {
+      this.subcategory = res;
+
+      let temp = []
+      for (let i = 0; i < this.mainCategory.length; i++) {
+        let obj = { cat_id: this.mainCategory[i].id, cat_title: this.mainCategory[i].title, subcategorie: [] }
+        if (this.mainCategory[i].title !== '') temp.push(obj)
+      }
+
+      for (let j = 0; j < this.subcategory.length; j++) {
+        let index = temp.findIndex(fi => fi.cat_id === this.subcategory[j].category_id)
+        if (index !== -1) {
+          temp[index].subcategorie.push(this.subcategory[j].title)
+        }
+      }
+      this.list = temp
+    })
+  }
+
 }

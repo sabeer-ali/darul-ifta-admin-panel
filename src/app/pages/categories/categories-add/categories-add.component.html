@@ -6,45 +6,87 @@
 
 <div class="bg-white p-4 shadow-sm rounded">
   <div class="d-flex justify-content-center">
-    <form class="col-lg-12">
+    <form class="col-lg-12" [formGroup]="form">
       <div class="form-row">
         <div class="form-group col-lg-12 col-md-12 col-sm-12">
           <label class="form-group" for="category">Category</label>
-          <ng-select
-            [items]="category"
-            bindLabel="name"
-            [addTag]="true"
-            placeholder="Category"
-            class="form-group"
-          >
-          </ng-select>
+          <div *ngIf="!isEditMode; else editMode">
+            <ng-select
+              [items]="category"
+              [(ngModel)]="selectedCategory"
+              bindLabel="title"
+              bindValue="id"
+              [addTag]="addCategory"
+              placeholder="Category"
+              class="form-group"
+              formControlName="category"
+              (change)="changeCat($event)"
+            >
+            </ng-select>
+          </div>
+          <ng-template #editMode>
+            <input
+              type="text"
+              name=""
+              id="category"
+              class="form-control"
+              [value]="category[0]?.title"
+              formControlName="category"
+            />
+          </ng-template>
         </div>
         <div class="form-group col-lg-12 col-md-12 col-sm-12">
           <label class="form-group" for="subcategory">Sub Category</label>
-          <ng-select
-            [items]="subcategory"
-            bindLabel="name"
-            [addTag]="true"
-            placeholder="Sub Category"
-            class="form-group"
-          >
-          </ng-select>
+          <div *ngIf="!isEditMode; else editModeSubCat">
+            <ng-select
+              [items]="subcategory"
+              bindLabel="title"
+              [addTag]="addSubCategory"
+              placeholder="Sub Category"
+              class="form-group"
+              multiple="true"
+              formControlName="subcategory"
+            >
+            </ng-select>
+          </div>
+          <div
+            *ngIf="
+              isEditMode && subcategory.length;
+              then editModeSubCat;
+              else isEditMode && noDataAvailable
+            "
+          ></div>
+
+          <ng-template #editModeSubCat>
+            <div *ngFor="let items of subcategory">
+              <input
+                type="text"
+                id="subcategory"
+                class="form-control"
+                [value]="items.title"
+                [(ngModel)]="items.title"
+                [ngModelOptions]="{ standalone: true }"
+                (change)="subCatChanges(items)"
+              />
+            </div>
+          </ng-template>
         </div>
       </div>
 
+      <ng-template #noDataAvailable>
+        <app-no-data-available></app-no-data-available>
+      </ng-template>
+
       <div class="form-group my-3 col-md-12 px-0">
         <div class="form-row d-flex justify-content-end mt-3">
-          <button
-            class="btn btn-primary"
-            [routerLink]="['/mustafthi-managment']"
-            *ngIf="isEditMode"
-          >
+          <button class="btn btn-primary" *ngIf="isEditMode" (click)="update()">
             Update
           </button>
           <button
             class="btn btn-primary"
-            [routerLink]="['/mustafthi-managment']"
             *ngIf="!isEditMode"
+            (click)="create()"
+            [disabled]="form.status === 'INVALID'"
           >
             Create
           </button>

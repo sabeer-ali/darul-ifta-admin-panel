@@ -6,7 +6,7 @@ import { Routes, RouterModule } from "@angular/router";
 
 const routes: Routes = [
   { path: "", component: CategoriesListComponent },
-  { path: "edit", component: CategoriesEditComponent },
+  { path: "edit/:id", component: CategoriesEditComponent },
   { path: "add", component: CategoriesAddComponent },
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CategoriesRoutingModule {}
+export class CategoriesRoutingModule { }

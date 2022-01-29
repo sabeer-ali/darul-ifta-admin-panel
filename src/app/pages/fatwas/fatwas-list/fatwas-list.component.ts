@@ -1,98 +1,165 @@
 import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+
+import { CategoryService } from "app/core/services/categoryServices/category.service";
+import { CommonService } from "app/core/services/common/common.service";
+import { FatwaServiceService } from "app/core/services/fatwaService/fatwa-service.service";
+import { QuestionService } from "app/core/services/questions/question.service";
 
 @Component({
   selector: "app-fatwas-list",
   templateUrl: "./fatwas-list.component.html",
   styleUrls: ["./fatwas-list.component.css"],
 })
+
 export class FatwasListComponent implements OnInit {
-  list: any[] = [];
+  list: any = [];
   q: any;
-  status = [
-    { id: 1, name: "Pending" },
-    { id: 2, name: "Submitted to Darul ifta" },
-    { id: 3, name: "Rejected" },
-    { id: 4, name: "Re-submitted" },
-    { id: 5, name: "Published" },
-  ];
-
-  madhab = [
-    { id: 1, name: "Hanafi" },
-    { id: 2, name: "Shafi" },
-    { id: 3, name: "Common" },
-  ];
-
-  category = [
-    { id: 1, name: "Category 1" },
-    { id: 2, name: "Category 2" },
-    { id: 3, name: "Category 3" },
-  ];
-  language = [
-    { id: 1, name: "Malayalam" },
-    { id: 2, name: "English" },
-    { id: 3, name: "Urudu" },
-    { id: 4, name: "Arabic" },
-  ];
-
-  subCategory = [
-    { id: 1, name: "Sub Category 1" },
-    { id: 2, name: "Sub Category 2" },
-    { id: 3, name: "Sub Category 3" },
-  ];
-
-  mufthi = [
-    { id: 1, name: "Mufthi 1" },
-    { id: 2, name: "Mufthi 2" },
-    { id: 3, name: "Mufthi 3" },
-    { id: 4, name: "Mufthi 4" },
-    { id: 5, name: "Mufthi 5" },
-    { id: 6, name: "Mufthi 6" },
-    { id: 7, name: "Mufthi 7" },
-    { id: 8, name: "Mufthi 8" },
-    { id: 9, name: "Mufthi 9" },
-    { id: 10, name: "Mufthi 10" },
-  ];
-
-  mustafthi = [
-    { id: 1, name: "sabeer 1" },
-    { id: 2, name: "aashik 2" },
-    { id: 3, name: "john 3" },
-    { id: 4, name: "sabu 4" },
-    { id: 5, name: "manu 5" },
-    { id: 6, name: "vishal 6" },
-    { id: 7, name: " lal 7" },
-    { id: 8, name: "mustafthi 8" },
-    { id: 9, name: "mustafthi 9" },
-    { id: 10, name: "mustafthi 10" },
-  ];
-
+  status: any = [];
+  madhab: any;
+  category: any = [];
+  language: any = [];
+  subCategory: any = [];
+  mufthi: any = [];
+  mustafthi: any = [];
+  form: FormGroup
   selectedCategory: any = null;
+  selectedStatus: any = null;
+  selectedMadhab: any = null;
+  selectedSubCategory: any = null;
+  selectedMufthi: any = null;
+  selectedMustafthi: any = null;
+  selectedLanguage: any = null;
 
-  constructor() {}
+  constructor(
+    private fatwaServices: FatwaServiceService,
+    private categoryService: CategoryService,
+    private commonServices: CommonService,
+    private questionsService: QuestionService,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    this.getCategoryList();
+    this.getLanguageList();
+    this.getMadhabList();
+    this.getStatusList();
     this.getFatwaList();
+    this.getUser();
+    this.getAllUser();
+    this.getAllQuestions()
+  }
+
+
+  getLanguageList() {
+    this.commonServices.getLanguageList().subscribe((res) => {
+      this.language = res;
+    });
+  }
+
+  getChangeFilter() {
+    let obj = {
+      category: this.selectedCategory,
+      status: this.selectedStatus,
+      madhab: this.selectedMadhab,
+      sub_category: this.selectedSubCategory,
+      mufti: this.selectedMufthi,
+      mustafthi: this.selectedMustafthi,
+      language: this.selectedLanguage
+    }
+    console.log("Filter PArmsss ==> obj ", obj, this.selectedMufthi)
+
+    let parms = ""
+    for (const key in obj) {
+      if (obj[key]) {
+        console.log("key", key)
+        if (key == "mustafthi") {
+          parms = parms + "" + "user_id" + "=" + obj[key].id + "&"
+        } else {
+          parms = parms + "" + key + "=" + obj[key].id + "&"
+        }
+      }
+    }
+    parms = parms?.slice(0, -1);
+    console.log("Filter PArmsss ==>", parms)
+    this.getAllQuestions(parms)
+  }
+
+  getAllUser() {
+    this.commonServices.getUserList().subscribe((res) => {
+      console.log("res", res);
+      this.list = res;
+    });
+  }
+
+  getAllQuestions(parms?: string) {
+    this.questionsService.getQuestionsList(parms).subscribe((res) => {
+      console.log("getQuestionsList ==> ", res);
+      this.list = res;
+    });
+  }
+
+  getUser() {
+    // type 2 : mufthi,type 3 : musthafthi
+    this.commonServices.getUserList(2).subscribe((res) => {
+      this.mufthi = res;
+    });
+    this.commonServices.getUserList(3).subscribe((response) => {
+      this.mustafthi = response;
+    });
+  }
+
+  chooseCategory(event: any) {
+    this.getSubCategory(event.id);
+  }
+
+  getSubCategory(id: number) {
+    this.categoryService.getSubCategoryList(id).subscribe((res) => {
+      console.log("res", res);
+      this.subCategory = res;
+    });
+  }
+
+  getCategoryList() {
+    this.fatwaServices.getCategoryList().subscribe((res) => {
+      this.category = res;
+    });
+  }
+
+  getStatusList() {
+    this.fatwaServices.getQuestionStatusList().subscribe((res) => {
+      this.status = res;
+    });
+  }
+
+  getMadhabList() {
+    this.fatwaServices.getMadhabList().subscribe((res) => {
+      this.madhab = res;
+    });
   }
 
   getFatwaList() {
-    for (let i = 1; i <= 15; i++) {
-      this.list.push({
-        qid: i,
-        mustafthi: "mustafthi" + i,
-        shortQ:
-          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-        createDate: "12-11-2021",
-        category: "category" + i,
-        madhab: i > 5 ? "Other" : i > 7 ? "Shafi" : "hanafi",
-        mufthi: i % 2 === 0 ? "mufthi 1" : "mufthi 2",
-        status:
-          i > 2 && i < 5
-            ? "Pending"
-            : i > 5 && i < 8
-            ? "Published"
-            : "Verifying",
-        dos: i + "-10-2021",
-      });
-    }
+    this.fatwaServices.getFatwasList().subscribe((res) => {
+      console.log("Res 0", res);
+    });
+    // for (let i = 1; i <= 15; i++) {
+    //   this.list.push({
+    //     qid: i,
+    //     mustafthi: "mustafthi" + i,
+    //     shortQ:
+    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+    //     createDate: "12-11-2021",
+    //     category: "category" + i,
+    //     madhab: i > 5 ? "Other" : i > 7 ? "Shafi" : "hanafi",
+    //     mufthi: i % 2 === 0 ? "mufthi 1" : "mufthi 2",
+    //     status:
+    //       i > 2 && i < 5
+    //         ? "Pending"
+    //         : i > 5 && i < 8
+    //         ? "Published"
+    //         : "Verifying",
+    //     dos: i + "-10-2021",
+    //   });
+    // }
   }
 }

@@ -4,41 +4,45 @@
     <label class="form-group font-weight-bold">Status</label>
     <ng-select
       [items]="status"
-      bindLabel="name"
+      bindLabel="title"
       placeholder="Status"
       class="form-group"
+      [(ngModel)]="selectedStatus"
     >
     </ng-select>
   </div>
-  <div class="col-md-6 col-lg-2">
+  <div class="col-md-6 col-lg-3">
     <label class="form-group font-weight-bold">Madhab</label>
     <ng-select
       [items]="madhab"
-      bindLabel="name"
+      bindLabel="title"
       placeholder="Madhab"
       class="form-group"
+      [(ngModel)]="selectedMadhab"
     >
     </ng-select>
   </div>
-  <div class="col-md-6 col-lg-2">
+  <div class="col-md-6 col-lg-3">
     <label class="form-group font-weight-bold">Category</label>
     <ng-select
       [items]="category"
-      bindLabel="name"
+      bindLabel="title"
       placeholder="Category"
       class="form-group"
       [(ngModel)]="selectedCategory"
+      (change)="chooseCategory($event)"
     >
     </ng-select>
   </div>
-  <div class="col-md-6 col-lg-2">
+  <div class="col-md-6 col-lg-3">
     <label class="form-group font-weight-bold">Sub Category</label>
     <ng-select
       [items]="subCategory"
-      bindLabel="name"
+      bindLabel="title"
       placeholder="Sub Category"
       class="form-group"
       [readonly]="selectedCategory === null"
+      [(ngModel)]="selectedSubCategory"
     >
     </ng-select>
   </div>
@@ -49,6 +53,7 @@
       bindLabel="name"
       placeholder="Mufthi"
       class="form-group"
+      [(ngModel)]="selectedMufthi"
     >
     </ng-select>
   </div>
@@ -59,25 +64,34 @@
       bindLabel="name"
       placeholder="Mustafthi"
       class="form-group"
+      [(ngModel)]="selectedMustafthi"
     >
     </ng-select>
   </div>
-  <div class="col-md-6 col-lg-2">
+  <div class="col-md-6 col-lg-3">
     <label class="form-group font-weight-bold">Language</label>
     <ng-select
       [items]="language"
-      bindLabel="name"
+      bindLabel="title"
       placeholder="Language"
       class="form-group"
+      [(ngModel)]="selectedLanguage"
     >
     </ng-select>
+  </div>
+
+  <div class="col-md-6 col-lg-3 d-flex pt-2">
+    <label class="form-group font-weight-bold"></label>
+    <button class="btn btn-sm w-100 mt-4" (click)="getChangeFilter()">
+      Apply
+    </button>
   </div>
 </div>
 
 <!-- table List -->
 <div class="container-fluid bg-white shadow-sm rounded p-3">
   <div>
-    <table class="table table-hover">
+    <table class="table table-hover" *ngIf="list.length; else noDataAvailable">
       <thead>
         <tr>
           <th class="text-center" scope="col">Question Id</th>
@@ -97,47 +111,51 @@
             let item of list | paginate: { itemsPerPage: 10, currentPage: q }
           "
         >
-          <td class="text-center">{{ item.qid }}</td>
-          <td class="text-center">{{ item.mustafthi }}</td>
-          <td class="w-25">{{ item.shortQ }}</td>
-          <td class="text-center">{{ item.dos }}</td>
-          <td class="text-center">{{ item.category }}</td>
-          <td class="text-center">{{ item.madhab }}</td>
-          <td class="text-center">{{ item.mufthi }}</td>
+          <td class="text-center">{{ item.id }}</td>
+          <td class="text-center">{{ item?.user_id?.name }}</td>
+          <td class="w-25">{{ item.short_question }}</td>
+          <td class="text-center">{{ item.createdAt }}</td>
+          <td class="text-center">{{ item?.category?.title }}</td>
+          <td class="text-center">{{ item?.madhab?.title }}</td>
+          <td class="text-center">{{ item?.mufti?.name || "N.A" }}</td>
           <td class="text-center">
             <span
               [ngClass]="{
-                rejected: item.status === 'Rejected',
-                pending: item.status === 'Pending',
-                inprogress: item.status === 'Verifying',
-                published: item.status === 'Published'
+                rejected: item?.status?.title === 'Rejected',
+                pending: item?.status?.title === 'Pending',
+                inprogress: item?.status?.title === 'Verifying',
+                published: item?.status?.title === 'Published'
               }"
             >
-              {{ item.status }}
+              {{ item?.status?.title }}
             </span>
           </td>
 
           <td>
             <div class="d-flex justify-content-center align-items-center">
-              <!-- <button class="btn btn-primary btn-sm mx-2 rounded">
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-              </button> -->
               <button
                 class="btn btn-primary btn-sm mx-2 rounded"
                 [routerLink]="['/fatwa-management/view']"
               >
                 <i class="fa fa-eye" aria-hidden="true"></i>
               </button>
-              <!-- <button class="btn btn-primary btn-sm mx-2 rounded">
-                <i class="fa fa-print" aria-hidden="true"></i>
-              </button> -->
             </div>
           </td>
         </tr>
       </tbody>
     </table>
-    <div class="d-flex justify-content-end cust-container">
+    <!-- pagination -->
+    <div
+      class="d-flex justify-content-end cust-container"
+      *ngIf="list.length >= 10"
+    >
       <pagination-controls (pageChange)="q = $event"></pagination-controls>
     </div>
+    <!-- pagination End-->
+    <!-- No Data Available -->
+    <ng-template #noDataAvailable>
+      <app-no-data-available></app-no-data-available>
+    </ng-template>
+    <!-- No Data Available End-->
   </div>
 </div>

@@ -13,6 +13,9 @@ import { AppComponent } from "./app.component";
 import { AppRoutes } from "./app.routing";
 
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { BasepathInterceptor } from "./core/auth/interceptors/basepath.interceptor";
+import { SharedModule } from "./shared/shared.module";
 
 @NgModule({
   declarations: [AppComponent, AdminLayoutComponent],
@@ -27,8 +30,12 @@ import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.compon
     FooterModule,
     FixedPluginModule,
     NgxPaginationModule,
+    HttpClientModule,
+    SharedModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: BasepathInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

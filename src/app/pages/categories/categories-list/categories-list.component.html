@@ -25,19 +25,20 @@
           "
         >
           <td>
-            {{ item.mainCategory }}
-            <span class="font-weight-bold pl-2"> ({{ item.mainCatNo }}) </span>
+            {{ item.cat_title }}
           </td>
           <td class="">
-            <div class="p-2 mx-1" *ngFor="let item1 of item.subCategory">
-              {{ item1.sub }}
-            </div>
+            <span *ngIf="item.subcategorie.length">
+              <div class="p-2 mx-1" *ngFor="let sub of item.subcategorie">
+                {{ sub }}
+              </div>
+            </span>
           </td>
 
           <td class="">
             <button
               class="btn btn-primary btn-sm mx-2 rounded"
-              [routerLink]="['/category-management/edit']"
+              [routerLink]="['/category-management/edit', item.cat_id]"
             >
               <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               <span class="px-1">Edit</span>
@@ -46,7 +47,11 @@
         </tr>
       </tbody>
     </table>
-    <div class="d-flex justify-content-end cust-container">
+
+    <div
+      class="d-flex justify-content-end cust-container"
+      *ngIf="list.length > 10"
+    >
       <pagination-controls (pageChange)="q = $event"></pagination-controls>
     </div>
   </div>
