@@ -8,8 +8,8 @@ import { UserListComponent } from "./user-list/user-list.component";
 const routes: Routes = [
   { path: "", component: UserListComponent },
   { path: "add", component: UserAddComponent },
-  { path: "edit", component: UserEditComponent },
-  { path: "view", component: UserViewComponent },
+  { path: "edit/:id", component: UserEditComponent },
+  { path: "view/:id", component: UserViewComponent },
 ];
 
 @NgModule({

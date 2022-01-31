@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-user-view",
@@ -7,7 +8,10 @@ import { Component, OnInit } from "@angular/core";
 })
 export class UserViewComponent implements OnInit {
   mode = "view";
-  constructor() {}
+  id = "";
+  constructor(private activeRouter: ActivatedRoute) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.id = this.activeRouter.snapshot.paramMap.get("id");
+  }
 }

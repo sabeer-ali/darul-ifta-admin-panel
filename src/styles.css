@@ -4,3 +4,20 @@
 .h-100 {
   height: 100% !important;
 }
+
+.success {
+  background-color: #008000;
+  color: #fff;
+}
+.error {
+  background-color: #a52a2a;
+  color: #fff;
+}
+.warning {
+  background-color: #ffff00;
+  color: #fff;
+}
+.info {
+  background-color: #4f4f97;
+  color: #fff;
+}

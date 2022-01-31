@@ -13,52 +13,54 @@
     <table class="table table-hover">
       <thead>
         <tr>
-          <th scope="col">Sl No</th>
+          <th scope="col">Id</th>
           <th scope="col">Name</th>
           <th scope="col">Display Name</th>
           <th scope="col">Mail</th>
-          <th scope="col">Active / Inactive</th>
           <th scope="col">Role</th>
+          <th scope="col" class="d-flex justify-content-center">
+            Active / Inactive
+          </th>
           <th scope="">Actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="list.length; else noDataAvailable">
         <tr
           *ngFor="
             let item of list | paginate: { itemsPerPage: 10, currentPage: q }
           "
         >
-          <td>{{ item.slNo }}</td>
+          <td>{{ item.id }}</td>
           <td>
-            {{ item.firstName + " " + item.lastName }}
-            <span class="font-weight-bold pl-2"> ({{ item.count }})</span>
+            {{ item.name }}
+            <!-- <span class="font-weight-bold pl-2"> ({{ item.count }})</span> -->
           </td>
-          <td>{{ item.displayName }}</td>
+          <td>{{ item.display_title }}</td>
 
           <td>{{ item.email }}</td>
-          <td>{{ item.role }}</td>
-          <td>
+          <td>{{ item.user_type?.title }}</td>
+          <td class="d-flex justify-content-center">
             <span
               [ngClass]="{
-                active: item.activeStatus == 'Active',
-                inactive: item.activeStatus == 'Inactive'
+                success: item?.user_status?.status == 'active',
+                error: item?.user_status?.status == 'inactive'
               }"
             >
-              {{ item.activeStatus }}
+              {{ item.user_status?.status }}
             </span>
           </td>
 
           <td class="">
             <button
               class="btn btn-primary btn-sm mx-2 rounded"
-              [routerLink]="['/user-management/view']"
+              [routerLink]="['/user-management/view', item.id]"
             >
               <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               <span class="px-1">View</span>
             </button>
             <button
               class="btn btn-primary btn-sm mx-2 rounded"
-              [routerLink]="['/user-management/edit']"
+              [routerLink]="['/user-management/edit', item.id]"
             >
               <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               <span class="px-1">Edit</span>
@@ -67,9 +69,22 @@
         </tr>
       </tbody>
     </table>
-    <div class="d-flex justify-content-end cust-container">
+
+    <div
+      class="d-flex justify-content-end cust-container"
+      *ngIf="list.length > 10"
+    >
       <pagination-controls (pageChange)="q = $event"></pagination-controls>
     </div>
   </div>
+
+  <ng-template #noDataAvailable>
+    <tr>
+      <td colspan="7">
+        <app-no-data-available></app-no-data-available>
+      </td>
+    </tr>
+  </ng-template>
+
   <router-outlet></router-outlet>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { UserService } from "app/core/services/users/user.service";
 
 @Component({
   selector: "app-user-list",
@@ -6,25 +7,29 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./user-list.component.css"],
 })
 export class UserListComponent implements OnInit {
-  list: any[] = [];
+  list: any = [];
   q: any;
-  constructor() {}
+  constructor(private userServices: UserService) {}
 
   ngOnInit(): void {
     this.getUserList();
   }
   getUserList() {
-    for (let i = 0; i <= 10; i++) {
-      this.list.push({
-        slNo: i,
-        firstName: "First Name " + i,
-        lastName: "last name " + i,
-        displayName: "dis name " + i,
-        count: (i * 2) / 2 + (i + i),
-        role: i < 7 ? "mufthi" : "student",
-        email: "sample" + i + "@gmail.com",
-        activeStatus: i < 5 ? "Active" : "Inactive",
-      });
-    }
+    this.userServices.getUserList("user_type=2").subscribe((res) => {
+      this.list = res;
+    });
+
+    // for (let i = 0; i <= 10; i++) {
+    //   this.list.push({
+    //     slNo: i,
+    //     firstName: "First Name " + i,
+    //     lastName: "last name " + i,
+    //     displayName: "dis name " + i,
+    //     count: (i * 2) / 2 + (i + i),
+    //     role: i < 7 ? "mufthi" : "student",
+    //     email: "sample" + i + "@gmail.com",
+    //     activeStatus: i < 5 ? "Active" : "Inactive",
+    //   });
+    // }
   }
 }
