@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { UserService } from "app/core/services/users/user.service";
 
 @Component({
   selector: "app-mustafthi-list",
@@ -6,22 +7,18 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./mustafthi-list.component.css"],
 })
 export class MustafthiListComponent implements OnInit {
-  list: any[] = [];
+  list: any = [];
   q: any;
-  constructor() {}
+  filterText: string = "";
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.getMustafthiList();
   }
 
   getMustafthiList() {
-    for (let i = 1; i <= 15; i++) {
-      this.list.push({
-        slNo: i,
-        fullname: "Name" + i,
-        mobileNo: 94007202 + i,
-        email: "mail-" + i + "@mail.com",
-      });
-    }
+    this.userService.getUserList("user_type=3").subscribe((res) => {
+      this.list = res;
+    });
   }
 }

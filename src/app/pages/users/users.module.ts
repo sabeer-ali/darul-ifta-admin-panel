@@ -27,5 +27,6 @@ import { SharedModule } from "app/shared/shared.module";
     FormsModule,
     ReactiveFormsModule,
   ],
+  exports: [UserAddComponent],
 })
 export class UsersModule {}

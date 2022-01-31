@@ -6,6 +6,7 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./mustafthi-create.component.css"],
 })
 export class MustafthiCreateComponent implements OnInit {
+  mode: "user-add";
   user: { id: number };
   gender = [
     { id: 1, name: "Male" },

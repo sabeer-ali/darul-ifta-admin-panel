@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { Location } from "@angular/common";
 import { CommonService } from "app/core/services/common/common.service";
 import { UserService } from "app/core/services/users/user.service";
 import {
@@ -31,7 +32,8 @@ export class UserAddComponent implements OnInit {
     private userServices: UserService,
     private commonService: CommonService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +44,12 @@ export class UserAddComponent implements OnInit {
     console.log("this.mode", this.mode);
 
     let parms = this.id ? `id=${this.id}` : undefined;
-    if (this.mode)
+    if (
+      this.mode === "view" ||
+      this.mode === "edit" ||
+      this.mode === "user-edit" ||
+      this.mode === "user-view"
+    )
       this.userServices.getUserList(parms).subscribe((res) => {
         this.userDetails = res[0];
         console.log("this.userDetails", this.userDetails);
@@ -54,10 +61,14 @@ export class UserAddComponent implements OnInit {
         this.selectedMadhabList = this.selectedMadhabList[0];
         // Madhab Filter default selected --- END
         // RoleLisr Filter default selected
-        this.selectedRoleList = this.roleList.filter(
-          (f) => f.id === this.userDetails.user_type.id
-        );
-        this.selectedRoleList = this.selectedRoleList[0];
+        if (this.mode === "user-edit" || this.mode === "user-view") {
+          this.selectedRoleList = this.roleList[0];
+        } else {
+          this.selectedRoleList = this.roleList.filter(
+            (f) => f.id === this.userDetails.user_type.id
+          );
+          this.selectedRoleList = this.selectedRoleList[0];
+        }
         // RoleLisr Filter default selected ---- END
 
         // Active Status Filter default selected
@@ -67,7 +78,6 @@ export class UserAddComponent implements OnInit {
         this.selectedUseStatusList = this.selectedUseStatusList[0];
         console.log("this.selectedUseStatusList", this.selectedUseStatusList);
         // Active Status Filter default selected - END
-
         this.setDefaultValues();
       });
 
@@ -87,7 +97,7 @@ export class UserAddComponent implements OnInit {
       street_address: ["", Validators.required],
       pin_code: ["", Validators.pattern("[0-9]{6}")],
     });
-    if (this.mode === "view") {
+    if (this.mode === "view" || this.mode === "user-view") {
       for (const key in this.myform.controls) {
         this.myform.controls[key].disable();
       }
@@ -130,6 +140,16 @@ export class UserAddComponent implements OnInit {
   getRoleList() {
     this.commonService.getRoleList().subscribe((res) => {
       this.roleList = res;
+      if (this.mode === "") {
+        this.roleList = this.roleList.filter((f: any) => f.id != "3");
+      } else if (
+        this.mode === "user-add" ||
+        this.mode === "user-edit" ||
+        this.mode === "user-view"
+      ) {
+        this.roleList = this.roleList.filter((f: any) => f.id == "3");
+        this.selectedRoleList = this.roleList[0];
+      }
     });
   }
 
@@ -168,7 +188,7 @@ export class UserAddComponent implements OnInit {
       pin_code,
     };
 
-    if (this.mode === "edit") {
+    if (this.mode === "edit" || this.mode === "user-edit") {
       this.userServices.updateUserItem(this.id, payload).subscribe((res) => {
         this.router.navigate(["/user-management"]).then((nav) => {
           this.myform.reset();
@@ -176,10 +196,14 @@ export class UserAddComponent implements OnInit {
       });
     } else {
       this.userServices.postUserItem(payload).subscribe((res) => {
-        this.router.navigate(["/user-management"]).then((nav) => {
+        this.router.navigate(["/"]).then((nav) => {
           this.myform.reset();
         });
       });
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

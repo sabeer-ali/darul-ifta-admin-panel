@@ -16,7 +16,7 @@ export class UserService {
   }
 
   getUserList(parms?: string) {
-    console.log(parms);
+    console.log("parms-->", parms);
     if (parms) {
       return this.http.get(`/user?${parms}`);
     } else return this.http.get("/user");

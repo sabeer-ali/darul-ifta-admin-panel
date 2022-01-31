@@ -1,5 +1,5 @@
 <div>
-  <button class="btn btn-sm" [routerLink]="['/user-management']">
+  <button class="btn btn-sm" (click)="goBack()">
     <i class="fa fa-arrow-left" aria-hidden="true"></i>
   </button>
 </div>
@@ -66,7 +66,13 @@
         </div>
         <div class="col-md-3 col-lg-3">
           <label class="">Roles</label>
-          <div *ngIf="mode === 'view'; then roleView; else role"></div>
+          <div
+            *ngIf="
+              mode === 'view' || mode === 'user-view';
+              then roleView;
+              else role
+            "
+          ></div>
           <ng-template #roleView>
             <div class="form-group">
               <input
@@ -93,7 +99,13 @@
 
         <div class="form-group col-md-3 col-lg-3">
           <label for="inputEmail4">Madhab</label>
-          <div *ngIf="mode === 'view'; then madhabView; else madhab"></div>
+          <div
+            *ngIf="
+              mode === 'view' || mode === 'user-view';
+              then madhabView;
+              else madhab
+            "
+          ></div>
           <ng-template #madhabView>
             <div class="form-group">
               <input
@@ -156,7 +168,13 @@
         <div class="form-group col-md-6 col-lg-6">
           <label for="inputEmail4">Active Status</label>
 
-          <div *ngIf="mode === 'view'; then activeView; else active"></div>
+          <div
+            *ngIf="
+              mode === 'view' || mode === 'user-view';
+              then activeView;
+              else active
+            "
+          ></div>
           <ng-template #activeView>
             <div class="form-group">
               <input
@@ -186,14 +204,14 @@
         <button
           type="submit"
           class="btn btn-primary"
-          *ngIf="mode === ''"
+          *ngIf="mode === '' || mode === 'user-add'"
           (click)="handleSubmit()"
           [disabled]="myform.status !== 'VALID'"
         >
           Save
         </button>
         <button
-          *ngIf="mode === 'edit'"
+          *ngIf="mode === 'edit' || mode === 'user-edit'"
           type="submit"
           class="btn btn-primary"
           (click)="handleSubmit()"

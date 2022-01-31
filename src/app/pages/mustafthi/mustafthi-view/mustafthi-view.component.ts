@@ -6,7 +6,7 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./mustafthi-view.component.css"],
 })
 export class MustafthiViewComponent implements OnInit {
-  editMode: Boolean = false;
+  mode: string = "user-view";
   constructor() {}
 
   ngOnInit(): void {}
