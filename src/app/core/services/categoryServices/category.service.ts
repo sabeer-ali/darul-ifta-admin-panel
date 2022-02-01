@@ -13,7 +13,7 @@ export class CategoryService {
     } else return this.http.get(`/subcategories`);
   }
 
-  postSubCategoies(body: any) {
+  postSubCategories(body: any) {
     return this.http.post("/subcategories", body);
   }
 

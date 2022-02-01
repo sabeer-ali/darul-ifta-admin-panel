@@ -6,7 +6,8 @@ import {
   Validators,
   FormBuilder,
 } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Location } from "@angular/common";
 
 @Component({
   selector: "app-categories-add",
@@ -30,18 +31,19 @@ export class CategoriesAddComponent implements OnInit {
   constructor(
     private categoryServices: CategoryService,
     private fb: FormBuilder,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
     console.log("isEditMode", this.isEditMode);
     this.id = this.router.snapshot.paramMap.get("id");
-    console.log("isEditMode id", this.id);
 
     this.form = this.fb.group({
       category: [[], Validators.required],
       subcategory: [[], Validators.required],
     });
+
     if (this.isEditMode) {
       let parms = `id=${this.id}`;
       console.log("parms", parms);
@@ -52,7 +54,6 @@ export class CategoriesAddComponent implements OnInit {
   getCategoryList(parms?: any) {
     this.categoryServices.getCategoryList(parms).subscribe((res) => {
       this.category = res;
-      console.log("REss getCategoryList", res);
       if (this.isEditMode) {
         console.log("asda", this.category);
         this.changeCat(this.category[0]);
@@ -68,54 +69,91 @@ export class CategoriesAddComponent implements OnInit {
 
     let subCat = {
       category_id: category,
-      title: subcategory[0].title,
+      title: subcategory.map((item) => item.title),
     };
+    console.log("category", payload, typeof payload.title);
+    console.log("Sub Category", subCat);
+
     if (typeof category !== "number") {
       this.categoryServices.postCategoies(payload).subscribe((res) => {
-        this.categoryServices.postSubCategoies(subCat).subscribe((res2) => {
+        console.log("res in Cat create", res);
+        subCat.category_id = res["id"];
+        this.categoryServices.postSubCategories(subCat).subscribe((res2) => {
           this.form.reset();
+          this.location.back();
         });
       });
     } else {
-      this.categoryServices.postSubCategoies(subCat).subscribe((res2) => {
+      this.categoryServices.postSubCategories(subCat).subscribe((res2) => {
         this.form.reset();
+        this.location.back();
       });
     }
   }
 
   update() {
     let { category } = this.form.value;
-    if (this.form.value.category.length) {
-      let catPayload = {
-        title: category,
-      };
+    let catPayload = {
+      title: category,
+    };
+
+    let subCatPayload = {
+      category_id: this.category[0].id,
+      data: this.changedSubCategory.map((item) => {
+        return { id: item.id, title: item.title };
+      }),
+    };
+
+    if (this.form.value.category.length && this.changedSubCategory.length) {
       this.categoryServices
         .updateCategoies(this.category[0].id, catPayload)
         .subscribe((resCat) => {
-          console.log("Res CAt", resCat);
+          console.log("Res Cat ", resCat);
+          if (this.changedSubCategory.length) {
+            this.categoryServices
+              .updateSubCategoies(subCatPayload)
+              .subscribe((res) => {
+                this.location.back();
+              });
+          } else {
+            this.location.back();
+          }
         });
-    }
-
-    if (this.changedSubCategory.length) {
-      this.changedSubCategory.map((item: any) => {
-        this.categoryServices
-          .updateSubCategoies({
-            category_id: this.subcategory[0].id,
-            id: item.id,
-            title: item.title,
-          })
-          .subscribe((res) => {
-            console.log("Rezzz", res);
-          });
-      });
+    } else if (
+      this.form.value.category.length &&
+      !this.changedSubCategory.length
+    ) {
+      this.categoryServices
+        .updateCategoies(this.category[0].id, catPayload)
+        .subscribe((resCat) => {
+          console.log("Res Cat ", resCat);
+          this.location.back();
+        });
+    } else if (
+      !this.form.value.category.length &&
+      this.changedSubCategory.length
+    ) {
+      this.categoryServices
+        .updateSubCategoies(subCatPayload)
+        .subscribe((res) => {
+          this.location.back();
+        });
+    } else {
+      alert("NO Values Changed");
     }
   }
 
   changeCat(event: any) {
-    console.log(" Sub Category ID", event);
-    this.categoryServices.getSubCategoryList(event.id).subscribe((res) => {
-      this.subcategory = res;
-    });
+    this.subcategory = [];
+    this.form.get("subcategory").reset();
+    try {
+      this.categoryServices.getSubCategoryList(event.id).subscribe((res) => {
+        console.log("res SC", res);
+        this.subcategory = res;
+      });
+    } catch (e) {
+      console.warn(e);
+    }
   }
 
   addCategory = (text: string) => ({ id: text, title: text });

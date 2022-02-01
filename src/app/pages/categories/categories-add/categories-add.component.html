@@ -37,7 +37,7 @@
         </div>
         <div class="form-group col-lg-12 col-md-12 col-sm-12">
           <label class="form-group" for="subcategory">Sub Category</label>
-          <div *ngIf="!isEditMode; else editModeSubCat">
+          <div *ngIf="!isEditMode">
             <ng-select
               [items]="subcategory"
               bindLabel="title"
@@ -52,24 +52,20 @@
           <div
             *ngIf="
               isEditMode && subcategory.length;
-              then editModeSubCat;
               else isEditMode && noDataAvailable
             "
-          ></div>
-
-          <ng-template #editModeSubCat>
+          >
             <div *ngFor="let items of subcategory">
               <input
                 type="text"
                 id="subcategory"
                 class="form-control"
-                [value]="items.title"
                 [(ngModel)]="items.title"
                 [ngModelOptions]="{ standalone: true }"
                 (change)="subCatChanges(items)"
               />
             </div>
-          </ng-template>
+          </div>
         </div>
       </div>
 
