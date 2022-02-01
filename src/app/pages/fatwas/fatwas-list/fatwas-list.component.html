@@ -91,7 +91,7 @@
 <!-- table List -->
 <div class="container-fluid bg-white shadow-sm rounded p-3">
   <div>
-    <table class="table table-hover" *ngIf="list.length; else noDataAvailable">
+    <table class="table table-hover">
       <thead>
         <tr>
           <th class="text-center" scope="col">Question Id</th>
@@ -105,7 +105,7 @@
           <th class="text-center" scope=""></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody *ngIf="list.length; else noDataAvailable">
         <tr
           *ngFor="
             let item of list | paginate: { itemsPerPage: 10, currentPage: q }
@@ -154,7 +154,11 @@
     <!-- pagination End-->
     <!-- No Data Available -->
     <ng-template #noDataAvailable>
-      <app-no-data-available></app-no-data-available>
+      <tr>
+        <td colspan="8">
+          <app-no-data-available></app-no-data-available>
+        </td>
+      </tr>
     </ng-template>
     <!-- No Data Available End-->
   </div>

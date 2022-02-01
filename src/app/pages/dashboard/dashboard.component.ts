@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { QuestionService } from "app/core/services/questions/question.service";
+import { UserService } from "app/core/services/users/user.service";
 import Chart from "chart.js";
 
 @Component({
@@ -11,26 +12,37 @@ import Chart from "chart.js";
 export class DashboardComponent implements OnInit {
   list: any = [];
   q: any = 0;
-  searchText: string = ''
+  searchText: string = "";
+  dashboardDetails: any;
 
-
-  constructor(private questionServices: QuestionService) { }
+  constructor(
+    private questionServices: QuestionService,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
     this.getfatwasList();
+    this.getDashboardItems();
+  }
+  getDashboardItems() {
+    this.userService
+      .getDashboardDetails("dashboardDataSets")
+      .subscribe((res) => {
+        this.dashboardDetails = res;
+      });
   }
 
   handleSearch() {
-    if (this.searchText && this.searchText !== '') {
-      let params = `id=${this.searchText}`
-      this.getfatwasList(params)
-    } else this.getfatwasList()
+    if (this.searchText && this.searchText !== "") {
+      let params = `id=${this.searchText}`;
+      this.getfatwasList(params);
+    } else this.getfatwasList();
   }
 
   getfatwasList(parms?: any) {
-    this.questionServices.getQuestionsList(parms).subscribe(res => {
-      this.list = res
-    })
+    this.questionServices.getQuestionsList(parms).subscribe((res) => {
+      this.list = res;
+    });
 
     // for (let i = 1; i <= 10; i++) {
     //   this.list.push({

@@ -12,7 +12,9 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">Mustafthi</p>
-              <p class="card-title">150</p>
+              <p class="card-title">
+                {{ dashboardDetails?.mustafthies | number }}
+              </p>
               <p></p>
             </div>
           </div>
@@ -32,7 +34,9 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">fatwas</p>
-              <p class="card-title">{{ "1345" | number }}</p>
+              <p class="card-title">
+                {{ dashboardDetails?.questions | number }}
+              </p>
               <p></p>
             </div>
           </div>
@@ -52,7 +56,7 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">pendings</p>
-              <p class="card-title">25</p>
+              <p class="card-title">{{ dashboardDetails?.pending | number }}</p>
               <p></p>
             </div>
           </div>
@@ -72,7 +76,9 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">Answered</p>
-              <p class="card-title">1,250</p>
+              <p class="card-title">
+                {{ dashboardDetails?.answered | number }}
+              </p>
               <p></p>
             </div>
           </div>
@@ -92,7 +98,9 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">Rejected</p>
-              <p class="card-title">15</p>
+              <p class="card-title">
+                {{ dashboardDetails?.rejected | number }}
+              </p>
               <p></p>
             </div>
           </div>
@@ -198,7 +206,11 @@
       </table>
 
       <ng-template #noDataAvailable>
-        <app-no-data-available></app-no-data-available>
+        <tr>
+          <td colspan="7">
+            <app-no-data-available></app-no-data-available>
+          </td>
+        </tr>
       </ng-template>
 
       <!-- <div class="cust-container d-flex justify-content-end">

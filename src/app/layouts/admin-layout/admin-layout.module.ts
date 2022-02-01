@@ -11,6 +11,7 @@ import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
 import { NotificationsComponent } from "../../pages/notifications/notifications.component";
 
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { SharedModule } from "app/shared/shared.module";
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     FormsModule,
     NgbModule,
     NgxPaginationModule,
+    SharedModule,
   ],
   declarations: [DashboardComponent, NotificationsComponent],
 })

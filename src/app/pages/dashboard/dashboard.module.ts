@@ -5,6 +5,6 @@ import { SharedModule } from "app/shared/shared.module";
 
 @NgModule({
   declarations: [],
-  imports: [SharedModule, CommonModule, NgxPaginationModule,],
+  imports: [SharedModule, CommonModule, NgxPaginationModule],
 })
-export class DashboardModule { }
+export class DashboardModule {}

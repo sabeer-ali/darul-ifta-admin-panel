@@ -7,6 +7,10 @@ import { Injectable } from "@angular/core";
 export class UserService {
   constructor(private http: HttpClient) {}
 
+  getDashboardDetails(parms: string) {
+    return this.http.get(`/user/${parms}`);
+  }
+
   updateUserItem(id: any, body: any) {
     return this.http.put(`/user/${id}`, body);
   }
@@ -16,7 +20,6 @@ export class UserService {
   }
 
   getUserList(parms?: string) {
-    console.log("parms-->", parms);
     if (parms) {
       return this.http.get(`/user?${parms}`);
     } else return this.http.get("/user");
