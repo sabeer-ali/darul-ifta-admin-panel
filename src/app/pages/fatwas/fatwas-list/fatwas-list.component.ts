@@ -11,7 +11,6 @@ import { QuestionService } from "app/core/services/questions/question.service";
   templateUrl: "./fatwas-list.component.html",
   styleUrls: ["./fatwas-list.component.css"],
 })
-
 export class FatwasListComponent implements OnInit {
   list: any = [];
   q: any;
@@ -22,7 +21,7 @@ export class FatwasListComponent implements OnInit {
   subCategory: any = [];
   mufthi: any = [];
   mustafthi: any = [];
-  form: FormGroup
+  form: FormGroup;
   selectedCategory: any = null;
   selectedStatus: any = null;
   selectedMadhab: any = null;
@@ -37,7 +36,7 @@ export class FatwasListComponent implements OnInit {
     private commonServices: CommonService,
     private questionsService: QuestionService,
     private fb: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getCategoryList();
@@ -47,9 +46,8 @@ export class FatwasListComponent implements OnInit {
     this.getFatwaList();
     this.getUser();
     this.getAllUser();
-    this.getAllQuestions()
+    this.getAllQuestions();
   }
-
 
   getLanguageList() {
     this.commonServices.getLanguageList().subscribe((res) => {
@@ -65,24 +63,24 @@ export class FatwasListComponent implements OnInit {
       sub_category: this.selectedSubCategory,
       mufti: this.selectedMufthi,
       mustafthi: this.selectedMustafthi,
-      language: this.selectedLanguage
-    }
-    console.log("Filter PArmsss ==> obj ", obj, this.selectedMufthi)
+      language: this.selectedLanguage,
+    };
+    console.log("Filter PArmsss ==> obj ", obj, this.selectedMufthi);
 
-    let parms = ""
+    let parms = "";
     for (const key in obj) {
       if (obj[key]) {
-        console.log("key", key)
+        console.log("key", key);
         if (key == "mustafthi") {
-          parms = parms + "" + "user_id" + "=" + obj[key].id + "&"
+          parms = parms + "" + "user_id" + "=" + obj[key].id + "&";
         } else {
-          parms = parms + "" + key + "=" + obj[key].id + "&"
+          parms = parms + "" + key + "=" + obj[key].id + "&";
         }
       }
     }
     parms = parms?.slice(0, -1);
-    console.log("Filter PArmsss ==>", parms)
-    this.getAllQuestions(parms)
+    console.log("Filter PArmsss ==>", parms);
+    this.getAllQuestions(parms);
   }
 
   getAllUser() {
@@ -94,7 +92,6 @@ export class FatwasListComponent implements OnInit {
 
   getAllQuestions(parms?: string) {
     this.questionsService.getQuestionsList(parms).subscribe((res) => {
-      console.log("getQuestionsList ==> ", res);
       this.list = res;
     });
   }

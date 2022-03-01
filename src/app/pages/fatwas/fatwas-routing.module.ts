@@ -5,7 +5,7 @@ import { FatwasListComponent } from "./fatwas-list/fatwas-list.component";
 
 const routes: Routes = [
   { path: "", component: FatwasListComponent },
-  { path: "view", component: FatwasViewComponent },
+  { path: "view/:id", component: FatwasViewComponent },
 ];
 
 @NgModule({

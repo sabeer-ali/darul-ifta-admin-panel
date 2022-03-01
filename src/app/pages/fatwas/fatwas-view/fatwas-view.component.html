@@ -17,7 +17,7 @@
 </div>
 
 <div class="bg-white rounded shadow-sm p-4">
-  <form>
+  <form [formGroup]="form">
     <div class="form-row">
       <div class="form-group col-md-3">
         <label for="qid">Question ID</label>
@@ -26,7 +26,7 @@
           class="form-control"
           id="qid"
           disabled
-          value="Q-0102"
+          value="{{ details?.id }}"
         />
       </div>
       <div class="form-group col-md-3">
@@ -36,16 +36,17 @@
           class="form-control"
           id="musrthafthi"
           disabled
-          value="Sabeer Ali"
+          value="{{ details?.user_id?.name }}"
         />
       </div>
       <div class="form-group col-md-3">
         <label for="category">Category</label>
         <ng-select
           [items]="categories"
-          bindLabel="name"
+          bindLabel="title"
           placeholder="Category"
           class="col px-0"
+          formControlName="categories"
         >
         </ng-select>
       </div>
@@ -53,9 +54,11 @@
         <label for="qid">Madhab</label>
         <ng-select
           [items]="madhab"
-          bindLabel="name"
+          bindLabel="title"
           placeholder="Madhab"
           class="col px-0"
+          formControlName="madhab"
+          [readonly]="true"
         >
         </ng-select>
       </div>
@@ -65,9 +68,10 @@
         <label class="form-group">Language</label>
         <ng-select
           [items]="language"
-          bindLabel="name"
+          bindLabel="title"
           placeholder="Language"
           class="form-group"
+          formControlName="language"
         >
         </ng-select>
       </div>
@@ -80,6 +84,7 @@
         class="form-control"
         id="shortquestion"
         placeholder="Short Question"
+        formControlName="short_question"
       />
       <span class="text-muted my-2">max 80 charecters</span>
     </div>
@@ -91,6 +96,7 @@
         id="lquestion"
         placeholder="Long Question"
         rows="15"
+        formControlName="question"
       ></textarea>
     </div>
 
@@ -109,7 +115,11 @@
           </ng-select>
         </div>
       </div>
-      <div class="col-md-6 col-lg-6" *ngIf="selectedWriter.student">
+
+      <div
+        class="col-md-6 col-lg-6"
+        *ngIf="selectedWriter?.user_type?.id === 4"
+      >
         <div class="form-group my-3">
           <label class="">Checked and Approved By</label>
           <ng-select
@@ -148,14 +158,7 @@
     </div>
 
     <div
-      class="
-        d-flex
-        align-items-center
-        justify-content-between
-        px-2
-        rounded
-        border-bottom
-      "
+      class="d-flex align-items-center justify-content-between px-2 rounded border-bottom"
     >
       <div class="d-flex">
         <span (click)="togleReference()" role="button" class="text-primary"

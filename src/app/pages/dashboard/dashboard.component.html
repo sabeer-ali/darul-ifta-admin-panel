@@ -13,7 +13,7 @@
             <div class="numbers">
               <p class="card-category">Mustafthi</p>
               <p class="card-title">
-                {{ dashboardDetails?.mustafthies | number }}
+                {{ dashboardDetails?.mustafthies || 0 | number }}
               </p>
               <p></p>
             </div>
@@ -35,7 +35,7 @@
             <div class="numbers">
               <p class="card-category">fatwas</p>
               <p class="card-title">
-                {{ dashboardDetails?.questions | number }}
+                {{ dashboardDetails?.questions || 0 | number }}
               </p>
               <p></p>
             </div>
@@ -56,7 +56,9 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">pendings</p>
-              <p class="card-title">{{ dashboardDetails?.pending | number }}</p>
+              <p class="card-title">
+                {{ dashboardDetails?.pending || 0 | number }}
+              </p>
               <p></p>
             </div>
           </div>
@@ -77,7 +79,7 @@
             <div class="numbers">
               <p class="card-category">Answered</p>
               <p class="card-title">
-                {{ dashboardDetails?.answered | number }}
+                {{ dashboardDetails?.answered || 0 | number }}
               </p>
               <p></p>
             </div>
@@ -99,7 +101,7 @@
             <div class="numbers">
               <p class="card-category">Rejected</p>
               <p class="card-title">
-                {{ dashboardDetails?.rejected | number }}
+                {{ dashboardDetails?.rejected || 0 | number }}
               </p>
               <p></p>
             </div>
@@ -158,16 +160,16 @@
             <th scope="col">Category</th>
             <th scope="col">Madhab</th>
             <th scope="col">Status</th>
-            <th scope="col"></th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody *ngIf="list.length; else noDataAvailable">
           <tr *ngFor="let item of list">
             <td class="font-weight-bold">{{ item.id }}</td>
-            <td>{{ item?.mufti?.name }}</td>
+            <td>{{ item?.user_id?.name || "N.A" }}</td>
             <td class="w-25">{{ item?.short_question }}</td>
             <td class="font-weight-bold text-secondary">
-              {{ item?.reatedAt }}
+              {{ item?.createdAt | date: "dd-MM-yyyy" }}
             </td>
             <td>{{ item?.category?.title }}</td>
             <td>
@@ -191,13 +193,7 @@
             <td>
               <div class="d-flex justify-content-center align-items-center">
                 <button class="btn btn-primary btn-sm mx-2 rounded">
-                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                </button>
-                <button class="btn btn-primary btn-sm mx-2 rounded">
                   <i class="fa fa-eye" aria-hidden="true"></i>
-                </button>
-                <button class="btn btn-primary btn-sm mx-2 rounded">
-                  <i class="fa fa-print" aria-hidden="true"></i>
                 </button>
               </div>
             </td>
@@ -212,10 +208,6 @@
           </td>
         </tr>
       </ng-template>
-
-      <!-- <div class="cust-container d-flex justify-content-end">
-        <pagination-controls (pageChange)="q = $event"></pagination-controls>
-      </div> -->
     </div>
   </div>
 </div>
