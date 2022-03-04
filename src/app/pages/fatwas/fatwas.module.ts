@@ -18,7 +18,7 @@ import { SharedModule } from "app/shared/shared.module";
     NgSelectModule,
     FormsModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
 })
-export class FatwasModule { }
+export class FatwasModule {}

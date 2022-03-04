@@ -16,7 +16,7 @@ export class UserListComponent implements OnInit {
   }
   getUserList() {
     this.userServices
-      .getUserList("user_type=2&&user_type=4")
+      .getUserList("user_type=1&&user_type=2&&user_type=4&&user_type=5")
       .subscribe((res) => {
         this.list = res;
       });

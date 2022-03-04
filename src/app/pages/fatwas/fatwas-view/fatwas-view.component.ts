@@ -6,6 +6,8 @@ import {
   FormBuilder,
 } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
+// import { AngularEditorConfig } from "@kolkov/angular-editor";
+
 import { CategoryService } from "app/core/services/categoryServices/category.service";
 import { CommonService } from "app/core/services/common/common.service";
 import { QuestionService } from "app/core/services/questions/question.service";
@@ -26,26 +28,16 @@ export class FatwasViewComponent implements OnInit {
     },
   ];
 
-  selectedWriter: any = "";
+  selectedWriter: any = null;
 
+  allUser: any = [];
   mufthi: any = [];
-  checker = [
-    { id: 1, name: "Mufthi 1" },
-    { id: 2, name: "Mufthi 2" },
-    { id: 3, name: "Mufthi 3" },
-    { id: 4, name: "Mufthi 4" },
-    { id: 5, name: "Mufthi 5" },
-    { id: 6, name: "Mufthi 6" },
-    { id: 7, name: "Mufthi 7" },
-    { id: 8, name: "Mufthi 8" },
-    { id: 9, name: "Mufthi 9" },
-    { id: 10, name: "Mufthi 10" },
-  ];
+  checker: any = [];
+  verifier: any = [];
 
   categories: any = [];
   madhab: any = [];
   language: any = [];
-  verifier: any = [];
 
   details: any = null;
   form: FormGroup;
@@ -84,11 +76,12 @@ export class FatwasViewComponent implements OnInit {
     this.userServices
       .getUserList("user_type=2&&user_type=4")
       .subscribe((res) => {
+        this.allUser = res;
         this.mufthi = res;
       });
 
     this.userServices.getUserList("user_type=5").subscribe((res) => {
-      this.verifier = res;
+      // this.verifier = res;
     });
   }
 
@@ -152,5 +145,23 @@ export class FatwasViewComponent implements OnInit {
       console.log("index", index);
       this.form.patchValue({ categories: this.categories[index] });
     });
+  }
+
+  getwrittenBy(values: any) {
+    if (values?.user_type?.id === 4) {
+      this.checker = this.mufthi.filter((item) => item.id !== values.id);
+      this.verifier = [];
+    } else {
+      this.verifier = this.mufthi.filter(
+        (item) => item.id !== values.id && item.user_type.id !== 4
+      );
+      this.checker = [];
+    }
+  }
+
+  getCheckerBy(values: any) {
+    this.verifier = this.mufthi.filter(
+      (item) => item.id !== values.id && item.user_type.id !== 4
+    );
   }
 }
