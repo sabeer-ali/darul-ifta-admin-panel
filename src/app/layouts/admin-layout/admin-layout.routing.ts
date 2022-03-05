@@ -2,13 +2,13 @@ import { Routes } from "@angular/router";
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
 
 export const AdminLayoutRoutes: Routes = [
+  { path: "dashboard", component: DashboardComponent },
   {
     path: "profile-management",
     loadChildren: () =>
       import("../../pages/profile/profile.module").then((m) => m.ProfileModule),
     data: { core: { title: "profile-management" } },
   },
-  { path: "dashboard", component: DashboardComponent },
   {
     path: "fatwa-management",
     loadChildren: () =>
