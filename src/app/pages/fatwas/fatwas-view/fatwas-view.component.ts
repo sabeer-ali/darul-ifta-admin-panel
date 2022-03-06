@@ -6,7 +6,9 @@ import {
   FormBuilder,
 } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
-// import { AngularEditorConfig } from "@kolkov/angular-editor";
+import { AngularEditorConfig } from "@kolkov/angular-editor";
+import { AnswersService } from "app/core/services/answers/answers.service";
+import { Location } from "@angular/common";
 
 import { CategoryService } from "app/core/services/categoryServices/category.service";
 import { CommonService } from "app/core/services/common/common.service";
@@ -20,9 +22,10 @@ import { UserService } from "app/core/services/users/user.service";
 })
 export class FatwasViewComponent implements OnInit {
   showReference: Boolean = false;
-  referenceList: any[] = [
+  referenceList: any = [
     {
-      bName: "",
+      quotes: "",
+      bookName: "",
       vol: "",
       pgNo: "",
     },
@@ -41,6 +44,31 @@ export class FatwasViewComponent implements OnInit {
 
   details: any = null;
   form: FormGroup;
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: "15rem",
+    minHeight: "5rem",
+    placeholder: "Enter text here...",
+    translate: "no",
+    customClasses: [
+      {
+        name: "quote",
+        class: "quote",
+      },
+      {
+        name: "redText",
+        class: "redText",
+      },
+      {
+        name: "titleText",
+        class: "titleText",
+        tag: "h1",
+      },
+    ],
+  };
+  htmlContentWithoutStyles = "";
+  htmlContent = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -48,7 +76,9 @@ export class FatwasViewComponent implements OnInit {
     private fb: FormBuilder,
     private cs: CategoryService,
     private commonServices: CommonService,
-    private userServices: UserService
+    private userServices: UserService,
+    private answerService: AnswersService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +94,7 @@ export class FatwasViewComponent implements OnInit {
       categories: [[], Validators.required],
       madhab: [[], Validators.required],
       language: [[], Validators.required],
+      fawaAnswer: [""],
     });
 
     this.getSubCategory();
@@ -138,11 +169,9 @@ export class FatwasViewComponent implements OnInit {
   getSubCategory() {
     this.cs.getSubCategoryList().subscribe((res) => {
       this.categories = res;
-      console.log("res", res);
       const index = this.categories.findIndex(
         (fi) => fi.id === this.details.sub_category.id
       );
-      console.log("index", index);
       this.form.patchValue({ categories: this.categories[index] });
     });
   }
@@ -163,5 +192,46 @@ export class FatwasViewComponent implements OnInit {
     this.verifier = this.mufthi.filter(
       (item) => item.id !== values.id && item.user_type.id !== 4
     );
+  }
+
+  handleSave() {
+    console.log("Thsi ---- ", this.form, this.selectedWriter, this.htmlContent);
+
+    const { id } = this.details;
+    const {
+      short_question,
+      question,
+      categories,
+      madhab,
+      language,
+      fawaAnswer,
+    } = this.form.value;
+
+    let payload = {
+      question_id: id,
+      answer: fawaAnswer,
+      reference: this.referenceList,
+      answered_by: this.selectedWriter.id,
+      verified_by: null,
+      status: this.details.status.id,
+    };
+
+    if (this.selectedWriter.id) {
+      payload.status = 4;
+    }
+
+    // if (this.details?.language?.id === language?.id) {
+    //   payload.language = language
+    // }
+    // if (this.details?.language?.id === language?.id) {
+    //   payload.categories = language
+    // }
+
+    console.log("Thsi 2 ---- ", payload);
+    console.log("this.details ---- ", this.details);
+    this.answerService.postAnswer(payload).subscribe((res) => {
+      console.log("ANS", res);
+      this.location.back();
+    });
   }
 }

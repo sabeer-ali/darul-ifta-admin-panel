@@ -112,6 +112,7 @@
             [(ngModel)]="selectedWriter"
             [ngModelOptions]="{ standalone: true }"
             (change)="getwrittenBy($event)"
+            [readonly]="details?.status?.id != 1"
           >
           </ng-select>
         </div>
@@ -139,6 +140,7 @@
             placeholder="verifier"
             class="col-md-8 px-0"
             [multiple]="false"
+            [readonly]="details?.status?.id != 4"
           >
           </ng-select>
         </div>
@@ -146,14 +148,14 @@
     </div>
 
     <div class="form-group">
-      <label for="wfatwas">Fatwa</label>
-      <textarea
-        class="form-control"
-        id="wfatwas"
-        placeholder="Write Fatwas"
-        rows="15"
-      ></textarea>
+      <label for="wfatwas font-weight-bolder">Fatwa</label>
+
+      <angular-editor
+        [config]="config"
+        formControlName="fawaAnswer"
+      ></angular-editor>
     </div>
+    {{ htmlContent }}
 
     <div
       class="d-flex align-items-center justify-content-between px-2 rounded border-bottom"
@@ -186,6 +188,8 @@
                 aria-label="Small"
                 aria-describedby="inputGroup-sizing-sm"
                 placeholder="Quotes"
+                [(ngModel)]="referenceList[i].quotes"
+                [ngModelOptions]="{ standalone: true }"
               />
             </div>
             <div class="form-group input-group-sm col-sm-12 col-md-6 col-lg-8">
@@ -194,6 +198,8 @@
                 class="form-control"
                 id="bookname"
                 placeholder="Book Name"
+                [(ngModel)]="referenceList[i].bookName"
+                [ngModelOptions]="{ standalone: true }"
               />
             </div>
 
@@ -203,6 +209,8 @@
                 class="form-control"
                 id="bvolume"
                 placeholder="Volume"
+                [(ngModel)]="referenceList[i].vol"
+                [ngModelOptions]="{ standalone: true }"
               />
             </div>
 
@@ -212,6 +220,8 @@
                 class="form-control"
                 id="pagenumber"
                 placeholder="Page No"
+                [(ngModel)]="referenceList[i].pgNo"
+                [ngModelOptions]="{ standalone: true }"
               />
             </div>
             <div class="col col d-flex justify-content-end my-3">
@@ -231,7 +241,9 @@
     </div>
 
     <div class="d-flex justify-content-end">
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn btn-primary" (click)="handleSave()">
+        Save
+      </button>
     </div>
   </form>
 </div>

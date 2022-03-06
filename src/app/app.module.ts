@@ -12,6 +12,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 
 import { AppComponent } from "./app.component";
 import { AppRoutes } from "./app.routing";
+import { AngularEditorModule } from "@kolkov/angular-editor";
 
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
@@ -27,6 +28,7 @@ import { GuardGuard } from "./core/auth/guard/guard.guard";
     BrowserAnimationsModule,
     RouterModule.forRoot(AppRoutes, {
       useHash: true,
+      relativeLinkResolution: "legacy",
     }),
     SidebarModule,
     NavbarModule,
@@ -38,6 +40,7 @@ import { GuardGuard } from "./core/auth/guard/guard.guard";
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
+    AngularEditorModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BasepathInterceptor, multi: true },
