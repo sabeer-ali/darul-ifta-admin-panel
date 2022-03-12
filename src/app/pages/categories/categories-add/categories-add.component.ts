@@ -71,24 +71,28 @@ export class CategoriesAddComponent implements OnInit {
       category_id: category,
       title: subcategory.map((item) => item.title),
     };
-    console.log("category", payload, typeof payload.title);
-    console.log("Sub Category", subCat);
+    console.log("category, subcategory", category, subcategory);
+    // console.log("category", payload, typeof payload.title);
+    // console.log("Sub Category", subCat);
 
-    if (typeof category !== "number") {
-      this.categoryServices.postCategoies(payload).subscribe((res) => {
-        console.log("res in Cat create", res);
-        subCat.category_id = res["id"];
-        this.categoryServices.postSubCategories(subCat).subscribe((res2) => {
-          this.form.reset();
-          this.location.back();
-        });
-      });
-    } else {
-      this.categoryServices.postSubCategories(subCat).subscribe((res2) => {
-        this.form.reset();
-        this.location.back();
-      });
-    }
+    // if (typeof category !== "number") {
+    //   console.log("payload --- ", payload);
+    // this.categoryServices.postCategoies(payload).subscribe((res) => {
+    //   console.log("res in Cat create", res);
+    //   subCat.category_id = res["id"];
+    //   this.categoryServices.postSubCategories(subCat).subscribe((res2) => {
+    //     this.form.reset();
+    //     this.location.back();
+    //   });
+    // });
+    // } else {
+
+    console.log("subCat 11", subCat);
+    this.categoryServices.postSubCategories(subCat).subscribe((res2) => {
+      this.form.reset();
+      this.location.back();
+    });
+    // }
   }
 
   update() {
@@ -148,7 +152,6 @@ export class CategoriesAddComponent implements OnInit {
     this.form.get("subcategory").reset();
     try {
       this.categoryServices.getSubCategoryList(event.id).subscribe((res) => {
-        console.log("res SC", res);
         this.subcategory = res;
       });
     } catch (e) {

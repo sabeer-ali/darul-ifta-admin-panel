@@ -9,22 +9,22 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   isLoggedIn() {
-    return localStorage.getItem("userDetails") ? true : false;
+    return localStorage.getItem("userData") ? true : false;
   }
   async storeLocalData(data) {
-    localStorage.setItem("userDetails", JSON.stringify(data));
+    localStorage.setItem("userData", JSON.stringify(data));
   }
 
   async getLocalData() {
-    let data = localStorage.getItem("userDetails");
+    let data = localStorage.getItem("userData");
     let result = await JSON.parse(data);
     return result;
   }
 
   logout() {
-    let data = localStorage.getItem("userDetails");
+    let data = localStorage.getItem("userData");
     if (data) {
-      localStorage.removeItem("userDetails");
+      localStorage.removeItem("userData");
       this.router.navigate(["login"]);
     }
   }
