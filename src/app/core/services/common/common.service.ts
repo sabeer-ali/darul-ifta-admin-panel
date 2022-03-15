@@ -7,6 +7,9 @@ import { Injectable } from "@angular/core";
 export class CommonService {
   constructor(private http: HttpClient) {}
 
+  getUserRejectStatusList() {
+    return this.http.get("/rejectedreasons");
+  }
   getUserStatusList() {
     return this.http.get("/userstatus");
   }

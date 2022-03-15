@@ -21,3 +21,31 @@
   background-color: #4f4f97;
   color: #fff;
 }
+
+.pending {
+  background-color: #ffff00;
+  color: #fff;
+}
+
+.rejected {
+  background-color: #a52a2a;
+  color: #fff;
+}
+.resubmitted {
+  background-color: #008080;
+}
+.receivedToDarulIftha {
+  background-color: #8a2be2;
+}
+.assignedMufti {
+  background-color: #f5deb3;
+}
+.muftiAnswered {
+  background-color: #ee82ee;
+}
+.completedVerification {
+  background-color: yellowgreen;
+}
+.published {
+  background-color: #008000;
+}

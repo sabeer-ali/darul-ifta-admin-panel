@@ -8,7 +8,10 @@
   <div class="d-flex justify-content-center">
     <form class="col-md-12 col-lg-10 mt-5" [formGroup]="myform">
       <div class="form-row">
-        <div class="form-group col-md-6">
+        <div
+          class="form-group col-md-6"
+          [ngClass]="{ 'col-md-12': mode === 'user-add' }"
+        >
           <label for="inputEmail4">Name</label>
           <input
             type="text"
@@ -18,7 +21,8 @@
             formControlName="name"
           />
         </div>
-        <div class="form-group col-md-6">
+
+        <div class="form-group col-md-6" *ngIf="mode != 'user-add'">
           <label for="inputEmail4">Display Name</label>
           <input
             type="text"
@@ -39,6 +43,7 @@
             id="email"
             value="{{ userDetails?.email }}"
             formControlName="email"
+            [readonly]="mode === 'edit'"
           />
         </div>
         <div class="form-group col-md-6">
@@ -49,6 +54,7 @@
             id="phonenumber"
             value="{{ userDetails?.phone }}"
             formControlName="phone"
+            [readonly]="mode === 'edit'"
           />
         </div>
       </div>
@@ -64,7 +70,7 @@
             formControlName="password"
           />
         </div>
-        <div class="col-md-3 col-lg-3">
+        <div class="col-md-3 col-lg-3" *ngIf="mode != 'user-add'">
           <label class="">Roles</label>
           <div
             *ngIf="
@@ -97,7 +103,10 @@
           </ng-template>
         </div>
 
-        <div class="form-group col-md-3 col-lg-3">
+        <div
+          class="form-group col-md-3"
+          [ngClass]="{ 'col-md-6': mode === 'user-add' }"
+        >
           <label for="inputEmail4">Madhab</label>
           <div
             *ngIf="
@@ -142,7 +151,7 @@
             formControlName="address"
           />
         </div>
-        <div class="form-group col-md-6 col-lg-6">
+        <!-- <div class="form-group col-md-6 col-lg-6">
           <label for="address">Street/Area</label>
           <input
             type="text"
@@ -163,7 +172,7 @@
             minlength="6"
             maxlength="6"
           />
-        </div>
+        </div> -->
 
         <div class="form-group col-md-6 col-lg-6">
           <label for="inputEmail4">Active Status</label>

@@ -9,6 +9,7 @@ import { FatwasRoutingModule } from "./fatwas-routing.module";
 import { FatwasListComponent } from "./fatwas-list/fatwas-list.component";
 import { FatwasViewComponent } from "./fatwas-view/fatwas-view.component";
 import { SharedModule } from "app/shared/shared.module";
+import { ModalModule } from "ngx-bootstrap/modal";
 
 @NgModule({
   declarations: [FatwasListComponent, FatwasViewComponent],
@@ -21,6 +22,7 @@ import { SharedModule } from "app/shared/shared.module";
     SharedModule,
     ReactiveFormsModule,
     AngularEditorModule,
+    ModalModule.forRoot(),
   ],
 })
 export class FatwasModule {}

@@ -1,6 +1,6 @@
 <div>
-  <div class="d-flex justify-content-between">
-    <div>
+  <div class="d-flex">
+    <div class="pr-5">
       <button
         class="btn btn-outline-default btn-sm"
         [routerLink]="['/fatwa-management']"
@@ -8,17 +8,35 @@
         <i class="fa fa-arrow-left" aria-hidden="true"></i>
       </button>
     </div>
-    <div>
-      <button class="btn btn-outline-default btn-sm">
-        <i class="fa fa-print" aria-hidden="true" style="font-size: large"></i>
-      </button>
+    <div class="my-auto">
+      <span class="text-info font-weight-bolder">Q-ID </span>
+      <span class="font-weight-bolder mx-2"> : {{ details?.id }} </span>
+      -
+      <span class="font-weight-bolder text-uppercase mx-2"
+        >{{ details?.user_id?.name }}
+      </span>
+      :
+      <span class="font-weight-bolder mx-2">
+        {{ details?.status?.title }}
+      </span>
+    </div>
+    <div class="col d-flex justify-content-end">
+      <div>
+        <button class="btn btn-outline-default btn-sm mx-2">
+          <i
+            class="fa fa-print"
+            aria-hidden="true"
+            style="font-size: large"
+          ></i>
+        </button>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="bg-white rounded shadow-sm p-4">
   <form [formGroup]="form">
-    <div class="form-row">
+    <!-- <div class="form-row">
       <div class="form-group col-md-3">
         <label for="qid">Question ID</label>
         <input
@@ -75,18 +93,22 @@
         >
         </ng-select>
       </div>
-    </div>
+    </div> -->
 
     <div class="form-group my-3">
       <label for="shortquestion">Short Question</label>
+      <span class="text-muted my-2 font-weight-bold" style="font-size: smaller">
+        ( max 80 charecters )
+      </span>
+
       <input
         type="text"
         class="form-control"
         id="shortquestion"
         placeholder="Short Question"
         formControlName="short_question"
+        [readonly]="fatwaStatus === 7"
       />
-      <span class="text-muted my-2">max 80 charecters</span>
     </div>
 
     <div class="form-group">
@@ -97,11 +119,15 @@
         placeholder="Long Question"
         rows="15"
         formControlName="question"
+        [readonly]="fatwaStatus === 7"
       ></textarea>
     </div>
 
-    <div class="row">
-      <div class="col-md-6 col-lg-6">
+    <div class="row" *ngIf="fatwaStatus != 1">
+      <div
+        class="col-md-6 col-lg-6"
+        *ngIf="fatwaStatus === 4 || fatwaStatus === 5 || fatwaStatus === 6"
+      >
         <div class="form-group my-3">
           <label class="">Written By</label>
           <ng-select
@@ -112,13 +138,13 @@
             [(ngModel)]="selectedWriter"
             [ngModelOptions]="{ standalone: true }"
             (change)="getwrittenBy($event)"
-            [readonly]="details?.status?.id != 1"
+            [readonly]="fatwaStatus === 6"
           >
           </ng-select>
         </div>
       </div>
 
-      <div class="col-md-6 col-lg-6" *ngIf="checker.length">
+      <div class="col-md-6 col-lg-6" *ngIf="false">
         <div class="form-group my-3">
           <label class="">Checked and Approved By</label>
           <ng-select
@@ -131,7 +157,7 @@
           </ng-select>
         </div>
       </div>
-      <div class="col-md-6 col-lg-6" *ngIf="verifier.length">
+      <div class="col-md-6 col-lg-6" *ngIf="fatwaStatus === 6">
         <div class="form-group my-3">
           <label class="">Verified By</label>
           <ng-select
@@ -139,15 +165,17 @@
             bindLabel="name"
             placeholder="verifier"
             class="col-md-8 px-0"
-            [multiple]="false"
-            [readonly]="details?.status?.id != 4"
+            (change)="getVerifier($event)"
           >
           </ng-select>
         </div>
       </div>
     </div>
 
-    <div class="form-group">
+    <div
+      class="form-group"
+      *ngIf="fatwaStatus === 5 || fatwaStatus === 6 || fatwaStatus === 7"
+    >
       <label for="wfatwas font-weight-bolder">Fatwa</label>
 
       <angular-editor
@@ -155,84 +183,97 @@
         formControlName="fawaAnswer"
       ></angular-editor>
     </div>
-    {{ htmlContent }}
 
-    <div
-      class="d-flex align-items-center justify-content-between px-2 rounded border-bottom"
-    >
-      <div class="d-flex">
-        <span (click)="togleReference()" role="button" class="text-primary"
-          >show</span
-        >
+    <div *ngIf="fatwaStatus == 5 || fatwaStatus == 6 || fatwaStatus === 7">
+      <div
+        class="d-flex align-items-center justify-content-between px-2 rounded border-bottom"
+      >
+        <div class="d-flex">
+          <span (click)="togleReference()" role="button" class="text-primary"
+            >show</span
+          >
+        </div>
+
+        <div class="d-flex justify-content-end" *ngIf="showReference">
+          <button
+            type="button"
+            class="btn btn-sm"
+            (click)="addReference($event)"
+            [disabled]="fatwaStatus === 7"
+          >
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
+        </div>
       </div>
 
-      <div class="d-flex justify-content-end" *ngIf="showReference">
-        <button type="button" class="btn btn-sm" (click)="addReference($event)">
-          <i class="fa fa-plus" aria-hidden="true"></i>
-        </button>
-      </div>
-    </div>
+      <div
+        class="border-bottom p-3"
+        *ngIf="showReference"
+        style="overflow-y: overlay; max-height: 300px"
+      >
+        <div *ngFor="let item of referenceList; let i = index">
+          <div class="form-row">
+            <div class="row col-sm-11 col-md-12 col-lg-12">
+              <div class="form-group input-group-sm col-md-12 col-lg-12">
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Small"
+                  aria-describedby="inputGroup-sizing-sm"
+                  placeholder="Quotes"
+                  [(ngModel)]="referenceList[i].quotes"
+                  [ngModelOptions]="{ standalone: true }"
+                  [readonly]="fatwaStatus === 7"
+                />
+              </div>
+              <div
+                class="form-group input-group-sm col-sm-12 col-md-6 col-lg-8"
+              >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="bookname"
+                  placeholder="Book Name"
+                  [(ngModel)]="referenceList[i].bookName"
+                  [ngModelOptions]="{ standalone: true }"
+                  [readonly]="fatwaStatus === 7"
+                />
+              </div>
 
-    <div
-      class="border-bottom p-3"
-      *ngIf="showReference"
-      style="overflow-y: overlay; max-height: 300px"
-    >
-      <div *ngFor="let item of referenceList; let i = index">
-        <div class="form-row">
-          <div class="row col-sm-11 col-md-12 col-lg-12">
-            <div class="form-group input-group-sm col-md-12 col-lg-12">
-              <input
-                type="text"
-                class="form-control"
-                aria-label="Small"
-                aria-describedby="inputGroup-sizing-sm"
-                placeholder="Quotes"
-                [(ngModel)]="referenceList[i].quotes"
-                [ngModelOptions]="{ standalone: true }"
-              />
-            </div>
-            <div class="form-group input-group-sm col-sm-12 col-md-6 col-lg-8">
-              <input
-                type="text"
-                class="form-control"
-                id="bookname"
-                placeholder="Book Name"
-                [(ngModel)]="referenceList[i].bookName"
-                [ngModelOptions]="{ standalone: true }"
-              />
-            </div>
+              <div class="form-group input-group-sm col-sm-6 col-md-3 col-lg-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="bvolume"
+                  placeholder="Volume"
+                  [(ngModel)]="referenceList[i].vol"
+                  [ngModelOptions]="{ standalone: true }"
+                  [readonly]="fatwaStatus === 7"
+                />
+              </div>
 
-            <div class="form-group input-group-sm col-sm-6 col-md-3 col-lg-2">
-              <input
-                type="text"
-                class="form-control"
-                id="bvolume"
-                placeholder="Volume"
-                [(ngModel)]="referenceList[i].vol"
-                [ngModelOptions]="{ standalone: true }"
-              />
-            </div>
-
-            <div class="form-group input-group-sm col-sm-6 col-md-3 col-lg-2">
-              <input
-                type="text"
-                class="form-control"
-                id="pagenumber"
-                placeholder="Page No"
-                [(ngModel)]="referenceList[i].pgNo"
-                [ngModelOptions]="{ standalone: true }"
-              />
-            </div>
-            <div class="col col d-flex justify-content-end my-3">
-              <div class="">
-                <button
-                  type="button"
-                  class="btn btn-sm btn-danger my-0"
-                  (click)="removeReference(i)"
-                >
-                  <i class="fa fa-times" aria-hidden="true"></i>
-                </button>
+              <div class="form-group input-group-sm col-sm-6 col-md-3 col-lg-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="pagenumber"
+                  placeholder="Page No"
+                  [(ngModel)]="referenceList[i].pgNo"
+                  [ngModelOptions]="{ standalone: true }"
+                  [readonly]="fatwaStatus === 7"
+                />
+              </div>
+              <div class="col col d-flex justify-content-end my-3">
+                <div class="">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger my-0"
+                    (click)="removeReference(i)"
+                    [disabled]="fatwaStatus === 7"
+                  >
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -241,9 +282,80 @@
     </div>
 
     <div class="d-flex justify-content-end">
-      <button type="submit" class="btn btn-primary" (click)="handleSave()">
-        Save
-      </button>
+      <div *ngIf="fatwaStatus === 1">
+        <button type="submit" class="btn btn-primary" (click)="handleSave()">
+          <span> Approved</span>
+        </button>
+      </div>
+      <div *ngIf="fatwaStatus === 4">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="handleSave()"
+          [disabled]="!selectedWriter"
+        >
+          <span> Submit</span>
+        </button>
+      </div>
+      <div *ngIf="fatwaStatus === 6">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          (click)="handleSave()"
+          [disabled]="!selectedVerifier"
+        >
+          <span> Verified</span>
+        </button>
+      </div>
+      <div *ngIf="fatwaStatus === 7">
+        <button type="submit" class="btn btn-primary" (click)="handleSave()">
+          <span> Publish</span>
+        </button>
+      </div>
+      <div *ngIf="fatwaStatus === 5">
+        <button type="submit" class="btn btn-danger" (click)="handleReject()">
+          Reject
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="handleSave()">
+          <span> Submit</span>
+        </button>
+      </div>
     </div>
   </form>
 </div>
+
+<!-- MOdal -->
+<ng-template #template>
+  <div class="modal-header">
+    <h5 class="modal-title">Reject Reason</h5>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ul>
+      <li *ngFor="let item of rejectReasonList">
+        <div class="custom-control custom-radio">
+          <input
+            type="radio"
+            class="custom-control-input"
+            [id]="item.id"
+            name="defaultExampleRadios"
+            [value]="item.title"
+            (change)="onItemChange($event.target)"
+          />
+          <label class="custom-control-label" [for]="item.id">{{
+            item?.title
+          }}</label>
+        </div>
+      </li>
+    </ul>
+
+    <button type="button" (click)="handleReject()">submit</button>
+  </div>
+</ng-template>

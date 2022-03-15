@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 import {
   FormGroup,
   FormControl,
@@ -14,6 +14,7 @@ import { CategoryService } from "app/core/services/categoryServices/category.ser
 import { CommonService } from "app/core/services/common/common.service";
 import { QuestionService } from "app/core/services/questions/question.service";
 import { UserService } from "app/core/services/users/user.service";
+import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 
 @Component({
   selector: "app-fatwas-view",
@@ -32,6 +33,7 @@ export class FatwasViewComponent implements OnInit {
   ];
 
   selectedWriter: any = null;
+  selectedVerifier: any = null;
 
   allUser: any = [];
   mufthi: any = [];
@@ -43,9 +45,10 @@ export class FatwasViewComponent implements OnInit {
   language: any = [];
 
   details: any = null;
+  fatwaStatus: number = 0;
   form: FormGroup;
   config: AngularEditorConfig = {
-    editable: true,
+    editable: this.fatwaStatus === 7 ? false : true,
     spellcheck: true,
     height: "15rem",
     minHeight: "5rem",
@@ -69,6 +72,9 @@ export class FatwasViewComponent implements OnInit {
   };
   htmlContentWithoutStyles = "";
   htmlContent = "";
+  modalRef?: BsModalRef;
+  rejectReasonList: any;
+  answerDetails: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -78,12 +84,14 @@ export class FatwasViewComponent implements OnInit {
     private commonServices: CommonService,
     private userServices: UserService,
     private answerService: AnswersService,
-    private location: Location
+    private location: Location,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get("id");
     console.log(id);
+    this.getUserList();
     if (id) {
       let parms = `id=${id}`;
       this.getAllQuestions(parms);
@@ -100,7 +108,20 @@ export class FatwasViewComponent implements OnInit {
     this.getSubCategory();
     this.getMadhabList();
     this.getLanguageList();
-    this.getUserList();
+    this.getAllRejectedReasons();
+  }
+
+  onItemChange(value) {
+    console.log("00003", value.value, value.id);
+  }
+
+  getAllRejectedReasons() {
+    this.commonServices.getUserRejectStatusList().subscribe((res) => {
+      this.rejectReasonList = res;
+    });
+  }
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
   }
 
   async getUserList() {
@@ -110,10 +131,6 @@ export class FatwasViewComponent implements OnInit {
         this.allUser = res;
         this.mufthi = res;
       });
-
-    this.userServices.getUserList("user_type=5").subscribe((res) => {
-      // this.verifier = res;
-    });
   }
 
   getMadhabList() {
@@ -140,9 +157,25 @@ export class FatwasViewComponent implements OnInit {
     this.questionsService.getQuestionsList(parms).subscribe((res) => {
       this.details = res?.[0];
       console.log("Details", this.details);
+      this.fatwaStatus = this.details.status.id;
       this.form.patchValue({ short_question: this.details.short_question });
       this.form.patchValue({ question: this.details.question });
+      if (this.details?.mufti) this.selectedWriter = this.details?.mufti;
+      if (this.details?.mufti_answered === 1) {
+        let parms = `?question_id=${this.details.id}`;
+        this.answerService.getAnswerItem(parms).subscribe((res) => {
+          this.answerDetails = res;
+          this.answerDetails = this.answerDetails[0];
+          this.form.patchValue({ fawaAnswer: this.answerDetails.answer });
+          this.referenceList = this.answerDetails.reference;
+        });
+
+        this.getVerifierList();
+      }
     });
+  }
+  getVerifierList() {
+    this.verifier = this.allUser.filter((fi) => fi.id != this.details.mufti.id);
   }
 
   ngOnChanges() {
@@ -157,11 +190,13 @@ export class FatwasViewComponent implements OnInit {
     e.stopPropagation();
 
     this.referenceList.push({
-      bName: "",
+      quotes: "",
+      bookName: "",
       vol: "",
       pgNo: "",
     });
   }
+
   removeReference(id: number) {
     this.referenceList.splice(id, 1);
   }
@@ -193,9 +228,12 @@ export class FatwasViewComponent implements OnInit {
       (item) => item.id !== values.id && item.user_type.id !== 4
     );
   }
+  getVerifier(values: any) {
+    this.selectedVerifier = values;
+  }
 
   handleSave() {
-    console.log("Thsi ---- ", this.form, this.selectedWriter, this.htmlContent);
+    console.log("Thsi ---- ", this.form, this.details);
 
     const { id } = this.details;
     const {
@@ -207,31 +245,65 @@ export class FatwasViewComponent implements OnInit {
       fawaAnswer,
     } = this.form.value;
 
-    let payload = {
-      question_id: id,
-      answer: fawaAnswer,
-      reference: this.referenceList,
-      answered_by: this.selectedWriter.id,
-      verified_by: null,
-      status: this.details.status.id,
-    };
+    let payload = {};
 
-    if (this.selectedWriter.id) {
-      payload.status = 4;
+    if (this.fatwaStatus === 1) {
+      payload = {
+        id,
+        status: 4,
+      };
     }
-
-    // if (this.details?.language?.id === language?.id) {
-    //   payload.language = language
-    // }
-    // if (this.details?.language?.id === language?.id) {
-    //   payload.categories = language
-    // }
-
-    console.log("Thsi 2 ---- ", payload);
     console.log("this.details ---- ", this.details);
-    this.answerService.postAnswer(payload).subscribe((res) => {
-      console.log("ANS", res);
-      this.location.back();
-    });
+
+    let params = "";
+    let body = {};
+
+    if (this.fatwaStatus === 1) {
+      params = `?id=${id}&status=${this.fatwaStatus}`;
+      this.questionsService.updateQuestionsItem(params).subscribe((res) => {
+        console.log("Res Questions 1", res);
+        this.location.back();
+      });
+    } else if (this.fatwaStatus === 4) {
+      params = `?id=${id}&status=${this.fatwaStatus}&mufti=${this.selectedWriter?.id}`;
+      this.questionsService.updateQuestionsItem(params).subscribe((res) => {
+        console.log("Res Questions 4", res);
+        this.location.back();
+      });
+    } else if (this.fatwaStatus === 5) {
+      params = `?id=${id}&status=${this.fatwaStatus}&mufti=${this.selectedWriter?.id}&mufti_answered=1`;
+      body = {
+        answer: fawaAnswer,
+        reference: this.referenceList,
+        nextStatus: 6,
+      };
+      this.questionsService
+        .updateQuestionsItem(params, body)
+        .subscribe((res) => {
+          console.log("Res Questions 5", res);
+          this.location.back();
+        });
+    } else if (this.fatwaStatus === 6) {
+      params = `?id=${id}&status=${this.fatwaStatus}`;
+      body = {
+        answer: fawaAnswer,
+        reference: this.referenceList,
+        nextStatus: 7,
+        verified_by: this.selectedVerifier?.id,
+      };
+      this.questionsService
+        .updateQuestionsItem(params, body)
+        .subscribe((res) => {
+          console.log("Res Questions 6", res);
+          this.location.back();
+        });
+    } else if (this.fatwaStatus === 7) {
+      params = `?id=${id}&status=${this.fatwaStatus}`;
+      this.questionsService.updateQuestionsItem(params).subscribe((res) => {
+        console.log("Res Questions 7", res);
+        this.location.back();
+      });
+    }
   }
+  handleReject() {}
 }

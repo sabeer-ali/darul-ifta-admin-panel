@@ -71,28 +71,11 @@ export class CategoriesAddComponent implements OnInit {
       category_id: category,
       title: subcategory.map((item) => item.title),
     };
-    console.log("category, subcategory", category, subcategory);
-    // console.log("category", payload, typeof payload.title);
-    // console.log("Sub Category", subCat);
 
-    // if (typeof category !== "number") {
-    //   console.log("payload --- ", payload);
-    // this.categoryServices.postCategoies(payload).subscribe((res) => {
-    //   console.log("res in Cat create", res);
-    //   subCat.category_id = res["id"];
-    //   this.categoryServices.postSubCategories(subCat).subscribe((res2) => {
-    //     this.form.reset();
-    //     this.location.back();
-    //   });
-    // });
-    // } else {
-
-    console.log("subCat 11", subCat);
     this.categoryServices.postSubCategories(subCat).subscribe((res2) => {
       this.form.reset();
       this.location.back();
     });
-    // }
   }
 
   update() {
@@ -109,20 +92,15 @@ export class CategoriesAddComponent implements OnInit {
     };
 
     if (this.form.value.category.length && this.changedSubCategory.length) {
-      this.categoryServices
-        .updateCategoies(this.category[0].id, catPayload)
-        .subscribe((resCat) => {
-          console.log("Res Cat ", resCat);
-          if (this.changedSubCategory.length) {
-            this.categoryServices
-              .updateSubCategoies(subCatPayload)
-              .subscribe((res) => {
-                this.location.back();
-              });
-          } else {
+      if (this.changedSubCategory.length) {
+        this.categoryServices
+          .updateSubCategoies(subCatPayload)
+          .subscribe((res) => {
             this.location.back();
-          }
-        });
+          });
+      } else {
+        this.location.back();
+      }
     } else if (
       this.form.value.category.length &&
       !this.changedSubCategory.length

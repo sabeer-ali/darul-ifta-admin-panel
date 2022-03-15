@@ -29,6 +29,7 @@ export class FatwasListComponent implements OnInit {
   selectedMufthi: any = null;
   selectedMustafthi: any = null;
   selectedLanguage: any = null;
+  searchText: string = "";
 
   constructor(
     private fatwaServices: FatwaServiceService,
@@ -49,6 +50,7 @@ export class FatwasListComponent implements OnInit {
     this.getAllQuestions();
   }
 
+  handleSearch() {}
   getLanguageList() {
     this.commonServices.getLanguageList().subscribe((res) => {
       this.language = res;

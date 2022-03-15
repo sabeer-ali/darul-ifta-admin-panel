@@ -83,7 +83,7 @@ export class UserAddComponent implements OnInit {
 
     this.myform = this.fb.group({
       name: ["", Validators.required],
-      display_title: ["", Validators.required],
+      display_title: [""],
       email: [
         "",
         Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$"),
@@ -92,10 +92,13 @@ export class UserAddComponent implements OnInit {
       user_status: [null, Validators.required],
       phone: ["", Validators.pattern("[0-9]{10}")],
       madhab: ["", Validators.required],
-      role: ["", Validators.required],
+      role: [
+        "",
+        this.mode === "user-add"
+          ? Validators.nullValidator
+          : Validators.required,
+      ],
       address: ["", Validators.required],
-      street_address: ["", Validators.required],
-      pin_code: ["", Validators.pattern("[0-9]{6}")],
     });
     if (this.mode === "view" || this.mode === "user-view") {
       for (const key in this.myform.controls) {
@@ -141,7 +144,9 @@ export class UserAddComponent implements OnInit {
     this.commonService.getRoleList().subscribe((res) => {
       this.roleList = res;
       if (this.mode === "") {
-        this.roleList = this.roleList.filter((f: any) => f.id != "3");
+        this.roleList = this.roleList.filter(
+          (f: any) => f.id != "3" && f.id != "1"
+        );
       } else if (
         this.mode === "user-add" ||
         this.mode === "user-edit" ||
@@ -179,7 +184,7 @@ export class UserAddComponent implements OnInit {
       display_title,
       email,
       password,
-      user_type: role.id,
+      user_type: this.mode === "user-add" ? 3 : role.id,
       user_status: user_status.id,
       phone,
       madhab: madhab.id,

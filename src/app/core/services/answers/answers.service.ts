@@ -7,6 +7,9 @@ import { Injectable } from "@angular/core";
 export class AnswersService {
   constructor(private http: HttpClient) {}
 
+  getAnswerItem(parms) {
+    return this.http.get(`/answers${parms}`);
+  }
   postAnswer(data) {
     return this.http.post("/answers", data);
   }
