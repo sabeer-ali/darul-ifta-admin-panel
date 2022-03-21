@@ -46,7 +46,6 @@ export class FatwasListComponent implements OnInit {
     this.getStatusList();
     this.getFatwaList();
     this.getUser();
-    this.getAllUser();
     this.getAllQuestions();
   }
 
@@ -85,13 +84,6 @@ export class FatwasListComponent implements OnInit {
     this.getAllQuestions(parms);
   }
 
-  getAllUser() {
-    this.commonServices.getUserList().subscribe((res) => {
-      console.log("res", res);
-      this.list = res;
-    });
-  }
-
   getAllQuestions(parms?: string) {
     this.questionsService.getQuestionsList(parms).subscribe((res) => {
       this.list = res;
@@ -114,7 +106,6 @@ export class FatwasListComponent implements OnInit {
 
   getSubCategory(id: number) {
     this.categoryService.getSubCategoryList(id).subscribe((res) => {
-      console.log("res", res);
       this.subCategory = res;
     });
   }

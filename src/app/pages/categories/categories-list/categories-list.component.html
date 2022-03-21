@@ -28,7 +28,7 @@
             {{ item.cat_title }}
           </td>
           <td class="">
-            <span *ngIf="item.subcategorie.length">
+            <span *ngIf="item.subcategorie.length; else dash">
               <div class="p-2 mx-1" *ngFor="let sub of item.subcategorie">
                 {{ sub }}
               </div>
@@ -64,4 +64,8 @@
       <app-no-data-available></app-no-data-available>
     </td>
   </tr>
+</ng-template>
+
+<ng-template #dash>
+  <span class="fw-bolder">-</span>
 </ng-template>
