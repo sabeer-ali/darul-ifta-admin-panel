@@ -32,10 +32,11 @@
             />
           </div>
         </form>
+        <div *ngIf="errorMsg?.message !== ''" class="my-2 text-center">
+          <span class="text-danger">{{ errorMsg?.message }}</span>
+        </div>
       </div>
-      <div *ngIf="response && !response.lenth" class="text-center">
-        <span class="text-danger font-weight-bolder">No User Found</span>
-      </div>
+
       <div class="text-center bg-dark-color2 shadow custom-submit-btn rounded">
         <button
           type="submit"

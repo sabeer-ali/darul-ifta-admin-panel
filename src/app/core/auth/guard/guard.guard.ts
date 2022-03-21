@@ -9,10 +9,9 @@ export class GuardGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
   canActivate() {
     console.log("this.authService.isLoggedIn", this.authService.isLoggedIn);
-    if (this.authService.isLoggedIn) {
+    if (this.authService.isLoggedIn()) {
       return true;
     } else {
-      this.router.navigate(["login"]);
       return false;
     }
   }

@@ -22,6 +22,8 @@ import { LoginComponent } from "./pages/login/login.component";
 import { AuthService } from "./core/services/auth/auth.service";
 import { GuardGuard } from "./core/auth/guard/guard.guard";
 
+import { NgxSpinnerModule } from "ngx-spinner";
+
 @NgModule({
   declarations: [AppComponent, AdminLayoutComponent, LoginComponent],
   imports: [
@@ -41,6 +43,7 @@ import { GuardGuard } from "./core/auth/guard/guard.guard";
     ReactiveFormsModule,
     FormsModule,
     AngularEditorModule,
+    NgxSpinnerModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BasepathInterceptor, multi: true },

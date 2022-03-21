@@ -52,8 +52,10 @@ export class FatwasViewComponent implements OnInit {
     spellcheck: true,
     height: "15rem",
     minHeight: "5rem",
-    placeholder: "Enter text here...",
+    placeholder: "Enter answers here...",
     translate: "no",
+    // enableToolbar: false,
+    // showToolbar: false,
     customClasses: [
       {
         name: "quote",
@@ -70,11 +72,11 @@ export class FatwasViewComponent implements OnInit {
       },
     ],
   };
-  htmlContentWithoutStyles = "";
-  htmlContent = "";
+
   modalRef?: BsModalRef;
   rejectReasonList: any;
   answerDetails: any;
+  isRtlLanguage = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -157,6 +159,8 @@ export class FatwasViewComponent implements OnInit {
     this.questionsService.getQuestionsList(parms).subscribe((res) => {
       this.details = res?.[0];
       console.log("Details", this.details);
+      this.isRtlLanguage =
+        this.details?.language?.id == 4 || this.details?.language?.id == 3;
       this.fatwaStatus = this.details.status.id;
       this.form.patchValue({ short_question: this.details.short_question });
       this.form.patchValue({ question: this.details.question });
@@ -204,8 +208,9 @@ export class FatwasViewComponent implements OnInit {
   getSubCategory() {
     this.cs.getSubCategoryList().subscribe((res) => {
       this.categories = res;
+
       const index = this.categories.findIndex(
-        (fi) => fi.id === this.details.sub_category.id
+        (fi) => fi.id == this.details?.sub_category.id
       );
       this.form.patchValue({ categories: this.categories[index] });
     });
@@ -277,6 +282,8 @@ export class FatwasViewComponent implements OnInit {
         reference: this.referenceList,
         nextStatus: 6,
       };
+      console.log("params, body", params, body);
+
       this.questionsService
         .updateQuestionsItem(params, body)
         .subscribe((res) => {

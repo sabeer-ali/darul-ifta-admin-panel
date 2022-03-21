@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {}
 
+  errorMsg = { message: "" };
+
   ngOnInit(): void {
     this.form = this.fb.group({
       userName: ["", Validators.required],
@@ -32,16 +34,18 @@ export class LoginComponent implements OnInit {
 
   async handleLogin() {
     const { userName, password } = this.form.value;
-    let params = `email=${userName}&&password=${password}`;
-    this.userService.getUserList(params).subscribe((res) => {
+    let body = { email: userName, password: password };
+    this.userService.getUserLoggin(body).subscribe((res) => {
       this.response = res;
-      localStorage.setItem("userDetails", JSON.stringify(res[0]));
-      if (res[0]) {
-        this.router.navigate(["/dashboard"]);
+      if (res.status) {
+        localStorage.setItem("userAdminData", JSON.stringify(res));
+        this.router.navigateByUrl("/dashboard");
+      } else {
+        this.errorMsg.message = res.message;
       }
 
       setTimeout(() => {
-        this.response = "";
+        this.errorMsg.message = "";
       }, 2000);
     });
   }

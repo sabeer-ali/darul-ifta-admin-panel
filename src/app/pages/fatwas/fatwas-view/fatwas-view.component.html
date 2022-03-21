@@ -178,10 +178,22 @@
     >
       <label for="wfatwas font-weight-bolder">Fatwa</label>
 
-      <angular-editor
+      <!-- <angular-editor
         [config]="config"
         formControlName="fawaAnswer"
-      ></angular-editor>
+        ></angular-editor>
+      -->
+      <div>
+        <textarea
+          name=""
+          id=""
+          cols="150"
+          rows="12"
+          formControlName="fawaAnswer"
+          [ngClass]="{ 'dir-rtl': fatwaStatus }"
+          class="border rounded"
+        ></textarea>
+      </div>
     </div>
 
     <div *ngIf="fatwaStatus == 5 || fatwaStatus == 6 || fatwaStatus === 7">
