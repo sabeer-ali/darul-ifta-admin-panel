@@ -140,7 +140,9 @@
         >
           <td class="text-center">{{ item.id }}</td>
           <td class="">{{ item?.user_id?.name }}</td>
-          <td class="w-25">{{ item.short_question }}</td>
+          <td class="w-25" [innerHtml]="item.short_question">
+            {{ item.short_question }}
+          </td>
           <td class="text-center">{{ item.createdAt | date: "dd-MM-yyyy" }}</td>
           <td class="text-center">{{ item?.category?.title }}</td>
           <td class="text-center">{{ item?.madhab?.title }}</td>
@@ -148,13 +150,20 @@
           <td class="text-center">
             <span
               [ngClass]="{
-                rejected: item?.status?.title === 'Rejected',
-                pending: item?.status?.title === 'Pending',
-                inprogress: item?.status?.title === 'Verifying',
-                published: item?.status?.title === 'Published'
+                pending: item.status?.id == 1,
+                rejected: item.status?.id == 2,
+                recievedToDI: item?.status?.id == 4,
+                assMufthi: item?.status?.id == 5,
+                mufthiAns: item.status?.id == 6,
+                completeVerification: item.status?.id == 7,
+                published: item.status?.id == 8
               }"
             >
-              {{ item?.status?.title }}
+              {{
+                item?.status?.title === "Assigned Mufti"
+                  ? "Assign Mufti"
+                  : item?.status?.title
+              }}
             </span>
           </td>
 

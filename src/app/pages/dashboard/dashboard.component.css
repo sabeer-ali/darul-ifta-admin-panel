@@ -1,24 +1,36 @@
-.rejected,
-.hold,
-.inprogress,
-.published {
+.pending, .rejected, .reSUbmitted, .recievedToDI, .assMufthi, .mufthiAns ,.completeVerification,  .published {  
   background-color: brown;
   color: aliceblue;
   padding: 5px 15px;
   border-radius: 1em;
 }
 
-.hold {
-  background-color: yellow;
-  color: black;
+
+.pending {
+  background-color: #ffc107;
 }
-.inprogress {
-  background-color: tomato;
+.rejected {
+  background-color: #dc3545;  
+}
+.reSUbmitted {
+  background-color: #e91e63;
+}
+.recievedToDI {
+  background-color: #8bc34a;  
+}
+.assMufthi {
+  background-color: #00bcd4;    
+}
+.mufthiAns {
+  background-color: #009688;    
+}
+.completeVerification {
+  background-color: #ff9800;
 }
 .published {
-  background-color: greenyellow;
-  color: black;
+  background-color: #4caf50;  
 }
+
 
 input,
 input button {

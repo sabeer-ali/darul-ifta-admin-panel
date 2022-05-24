@@ -11,16 +11,43 @@
   border-radius: 1em;
 }
 
-.pending {
-  background-color: yellow;
-  color: black;
-}
-
-.inprogress {
-  background-color: tomato;
-}
-
+.pending,
+.rejected,
+.reSUbmitted,
+.recievedToDI,
+.assMufthi,
+.mufthiAns,
+.completeVerification,
 .published {
-  background-color: greenyellow;
-  color: black;
+  background-color: brown;
+  color: aliceblue;
+  padding: 5px 15px;
+  border-radius: 1em;
+  font-size: small;
+}
+
+.pending {
+  background-color: #ffc107;
+}
+.rejected {
+  background-color: #dc3545;
+}
+.reSUbmitted {
+  background-color: #e91e63;
+}
+.recievedToDI {
+  background-color: #8bc34a;
+}
+.assMufthi {
+  background-color: #00bcd4;
+  padding: 5px;
+}
+.mufthiAns {
+  background-color: #009688;
+}
+.completeVerification {
+  background-color: #ff9800;
+}
+.published {
+  background-color: #4caf50;
 }

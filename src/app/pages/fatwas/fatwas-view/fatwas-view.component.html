@@ -114,10 +114,10 @@
     <div class="form-group">
       <label for="lquestion">Long Question</label>
       <textarea
-        class="form-control"
         id="lquestion"
+        rows="11"
+        class="form-control"
         placeholder="Long Question"
-        rows="15"
         formControlName="question"
         [readonly]="fatwaStatus === 7"
       ></textarea>
@@ -185,13 +185,12 @@
       -->
       <div>
         <textarea
-          name=""
-          id=""
-          cols="150"
-          rows="12"
           formControlName="fawaAnswer"
-          [ngClass]="{ 'dir-rtl': fatwaStatus }"
-          class="border rounded"
+          [ngClass]="{
+            'dir-rtl':
+              this.details?.language?.id == 3 || this.details?.language?.id == 4
+          }"
+          class="border rounded w-100 fatwa-write"
         ></textarea>
       </div>
     </div>
@@ -295,6 +294,9 @@
 
     <div class="d-flex justify-content-end">
       <div *ngIf="fatwaStatus === 1">
+        <button type="submit" class="btn btn-danger" (click)="open(content)">
+          Reject
+        </button>
         <button type="submit" class="btn btn-primary" (click)="handleSave()">
           <span> Approved</span>
         </button>
@@ -325,7 +327,7 @@
         </button>
       </div>
       <div *ngIf="fatwaStatus === 5">
-        <button type="submit" class="btn btn-danger" (click)="handleReject()">
+        <button type="submit" class="btn btn-danger" (click)="open(content)">
           Reject
         </button>
         <button type="submit" class="btn btn-primary" (click)="handleSave()">
@@ -336,38 +338,42 @@
   </form>
 </div>
 
-<!-- MOdal -->
-<ng-template #template>
+<!-- modal -->
+<ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h5 class="modal-title">Reject Reason</h5>
+    <h4 class="modal-title" id="modal-basic-title">
+      Please choose any option.
+    </h4>
     <button
       type="button"
-      class="btn-close close pull-right"
+      class="btn-close"
       aria-label="Close"
-      (click)="modalRef?.hide()"
-    >
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
-    </button>
+      (click)="d('Cross click')"
+    ></button>
   </div>
   <div class="modal-body">
-    <ul>
-      <li *ngFor="let item of rejectReasonList">
-        <div class="custom-control custom-radio">
-          <input
-            type="radio"
-            class="custom-control-input"
-            [id]="item.id"
-            name="defaultExampleRadios"
-            [value]="item.title"
-            (change)="onItemChange($event.target)"
-          />
-          <label class="custom-control-label" [for]="item.id">{{
-            item?.title
-          }}</label>
-        </div>
-      </li>
-    </ul>
-
-    <button type="button" (click)="handleReject()">submit</button>
+    <div class="col-md-12 col-lg-12 px-0 mb-3 mt-2">
+      <h5 class="fw-bold">{{ form?.value?.question }}</h5>
+      <label class="">Reason for reject!</label>
+      <ng-select
+        [items]="rejectReasonList"
+        bindLabel="title"
+        placeholder="Reason"
+        class=""
+        [(ngModel)]="selectedRejectReason"
+      >
+      </ng-select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="closeModal()"
+      [disabled]="!selectedRejectReason"
+    >
+      Submit
+    </button>
   </div>
 </ng-template>
+<!-- modal End -->

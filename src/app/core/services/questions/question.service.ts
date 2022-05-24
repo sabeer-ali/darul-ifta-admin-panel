@@ -21,6 +21,6 @@ export class QuestionService {
     console.log(parms);
     if (parms) {
       return this.http.get(`/questions?${parms}`);
-    } else return this.http.get("/questions");
+    } else return this.http.get("/questions?field=createdAt&orderBy=DESC");
   }
 }

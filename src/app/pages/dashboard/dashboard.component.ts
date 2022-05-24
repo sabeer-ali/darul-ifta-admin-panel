@@ -40,6 +40,9 @@ export class DashboardComponent implements OnInit {
   }
 
   getfatwasList(parms?: any) {
+    if (!parms) {
+      parms = "limit=10&field=createdAt&orderBy=DESC";
+    }
     this.questionServices.getQuestionsList(parms).subscribe((res) => {
       this.list = res;
     });

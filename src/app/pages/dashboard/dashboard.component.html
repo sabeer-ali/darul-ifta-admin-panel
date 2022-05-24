@@ -164,10 +164,16 @@
           </tr>
         </thead>
         <tbody *ngIf="list.length; else noDataAvailable">
-          <tr *ngFor="let item of list">
+          <tr
+            *ngFor="
+              let item of list | paginate: { itemsPerPage: 10, currentPage: q }
+            "
+          >
             <td class="font-weight-bold">{{ item.id }}</td>
             <td>{{ item?.user_id?.name || "N.A" }}</td>
-            <td class="w-25">{{ item?.short_question }}</td>
+            <td class="w-25" [innerHtml]="item?.short_question">
+              {{ item?.short_question }}
+            </td>
             <td class="font-weight-bold text-secondary">
               {{ item?.createdAt | date: "dd-MM-yyyy" }}
             </td>
@@ -181,10 +187,13 @@
             <td>
               <span
                 [ngClass]="{
-                  rejected: item.status === 'Rejected',
-                  hold: item.status === 'on hold',
-                  inprogress: item.status === 'Verifying',
-                  published: item.status === 'Published'
+                  pending: item.status?.id == 1,
+                  rejected: item.status?.id == 2,
+                  recievedToDI: item?.status?.id == 4,
+                  assMufthi: item?.status?.id == 5,
+                  mufthiAns: item.status?.id == 6,
+                  completeVerification: item.status?.id == 7,
+                  published: item.status?.id == 8
                 }"
               >
                 {{ item?.status?.title }}
@@ -192,7 +201,10 @@
             </td>
             <td>
               <div class="d-flex justify-content-center align-items-center">
-                <button class="btn btn-primary btn-sm mx-2 rounded">
+                <button
+                  class="btn btn-primary btn-sm mx-2 rounded"
+                  [routerLink]="['/fatwa-management/view', item.id]"
+                >
                   <i class="fa fa-eye" aria-hidden="true"></i>
                 </button>
               </div>
@@ -201,6 +213,9 @@
         </tbody>
       </table>
 
+      <div class="d-flex justify-content-end">
+        <!-- <pagination-controls (pageChange)="q = $event"></pagination-controls> -->
+      </div>
       <ng-template #noDataAvailable>
         <tr>
           <td colspan="8">

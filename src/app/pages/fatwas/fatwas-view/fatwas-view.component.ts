@@ -14,7 +14,7 @@ import { CategoryService } from "app/core/services/categoryServices/category.ser
 import { CommonService } from "app/core/services/common/common.service";
 import { QuestionService } from "app/core/services/questions/question.service";
 import { UserService } from "app/core/services/users/user.service";
-import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { NgbModalConfig, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-fatwas-view",
@@ -73,10 +73,14 @@ export class FatwasViewComponent implements OnInit {
     ],
   };
 
-  modalRef?: BsModalRef;
+  // modalRef?: BsModalRef;
   rejectReasonList: any;
   answerDetails: any;
   isRtlLanguage = false;
+
+  closeResult = "";
+
+  selectedRejectReason = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -87,8 +91,12 @@ export class FatwasViewComponent implements OnInit {
     private userServices: UserService,
     private answerService: AnswersService,
     private location: Location,
-    private modalService: BsModalService
-  ) {}
+    config: NgbModalConfig,
+    private modalService: NgbModal
+  ) {
+    config.backdrop = "static";
+    config.keyboard = false;
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get("id");
@@ -122,8 +130,15 @@ export class FatwasViewComponent implements OnInit {
       this.rejectReasonList = res;
     });
   }
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
+
+  open(content) {
+    this.modalService.open(content);
+  }
+
+  closeModal() {
+    this.modalService.dismissAll((reason) => {});
+    console.log("Reason", this.selectedRejectReason, this.fatwaStatus);
+    this.handleSave();
   }
 
   async getUserList() {
@@ -264,7 +279,17 @@ export class FatwasViewComponent implements OnInit {
     let body = {};
 
     if (this.fatwaStatus === 1) {
-      params = `?id=${id}&status=${this.fatwaStatus}`;
+      if (this.selectedRejectReason) {
+        params = `?id=${id}&status=2&mufti=2`;
+        body = {
+          reject_reason: this.selectedRejectReason?.id,
+          nextStatus: 2,
+        };
+      } else {
+        params = `?id=${id}&status=${this.fatwaStatus}`;
+      }
+      console.log("params, body in Reject ", params, body);
+
       this.questionsService.updateQuestionsItem(params).subscribe((res) => {
         console.log("Res Questions 1", res);
         this.location.back();
@@ -276,14 +301,22 @@ export class FatwasViewComponent implements OnInit {
         this.location.back();
       });
     } else if (this.fatwaStatus === 5) {
-      params = `?id=${id}&status=${this.fatwaStatus}&mufti=${this.selectedWriter?.id}&mufti_answered=1`;
-      body = {
-        answer: fawaAnswer,
-        reference: this.referenceList,
-        nextStatus: 6,
-      };
-      console.log("params, body", params, body);
-
+      if (this.selectedRejectReason) {
+        params = `?id=${id}&status=2&mufti=${this.selectedWriter?.id}`;
+        body = {
+          reject_reason: this.selectedRejectReason?.id,
+          nextStatus: 2,
+        };
+        console.log("params, body in Reject ", params, body);
+      } else {
+        params = `?id=${id}&status=${this.fatwaStatus}&mufti=${this.selectedWriter?.id}&mufti_answered=1`;
+        body = {
+          answer: fawaAnswer,
+          reference: this.referenceList,
+          nextStatus: 6,
+        };
+        console.log("params, body", params, body);
+      }
       this.questionsService
         .updateQuestionsItem(params, body)
         .subscribe((res) => {
@@ -312,5 +345,4 @@ export class FatwasViewComponent implements OnInit {
       });
     }
   }
-  handleReject() {}
 }

@@ -129,27 +129,6 @@ export class FatwasListComponent implements OnInit {
   }
 
   getFatwaList() {
-    this.fatwaServices.getFatwasList().subscribe((res) => {
-      console.log("Res 0", res);
-    });
-    // for (let i = 1; i <= 15; i++) {
-    //   this.list.push({
-    //     qid: i,
-    //     mustafthi: "mustafthi" + i,
-    //     shortQ:
-    //       "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-    //     createDate: "12-11-2021",
-    //     category: "category" + i,
-    //     madhab: i > 5 ? "Other" : i > 7 ? "Shafi" : "hanafi",
-    //     mufthi: i % 2 === 0 ? "mufthi 1" : "mufthi 2",
-    //     status:
-    //       i > 2 && i < 5
-    //         ? "Pending"
-    //         : i > 5 && i < 8
-    //         ? "Published"
-    //         : "Verifying",
-    //     dos: i + "-10-2021",
-    //   });
-    // }
+    this.fatwaServices.getFatwasList().subscribe((res) => {});
   }
 }
